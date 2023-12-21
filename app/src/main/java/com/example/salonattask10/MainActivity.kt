@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    val startDestination = viewModel.startDestination
-                    val startDes = Route.HomeScreen.route
+                    val startDes = Route.ShowService.route
                     NavGrav(startDes = startDes)
                 }
             }

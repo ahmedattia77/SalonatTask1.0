@@ -8,5 +8,6 @@ sealed class Route(val route : String) {
     object HomeScreen : Route(route = "homeScreen")
     object Service : Route(route = "serviceScreen")
     object AddService : Route(route = "AddServiceScreen")
+    object ShowService : Route(route = "ShowServiceScreen")
 
 }

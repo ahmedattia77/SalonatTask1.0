@@ -5,11 +5,13 @@ import com.example.salonattask10.data.model.categoriesJON.CategoriesResponse
 import com.example.salonattask10.data.model.category_servicesJON.CategoryServiesResponse
 import com.example.salonattask10.data.model.loginJON.LoginResponse
 import com.example.salonattask10.data.model.serviceJON.ServiceResponse
+import com.example.salonattask10.data.model.services_detailsJON.ServiceDetailsResponse
 import com.example.salonattask10.data.model.verifyJON.VerifyResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -39,5 +41,11 @@ interface ApiService {
     suspend fun getCategoryServices(
         @Query("id") id: Int
     ): CategoryServiesResponse
+
+    @GET("Back/show/center/{center_id}/service/{service_id}")
+    suspend fun showService(
+        @Path("center_id") centerId: Int,
+        @Path("service_id") serviceId: Int,
+    ): ServiceDetailsResponse
 
 }

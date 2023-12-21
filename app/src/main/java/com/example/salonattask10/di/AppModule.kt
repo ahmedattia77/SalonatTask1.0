@@ -7,11 +7,13 @@ import com.example.salonattask10.data.remote.ApiService
 import com.example.salonattask10.data.repository.CategoriesRepositoryImp
 import com.example.salonattask10.data.repository.CategoryServicesRepositoryImp
 import com.example.salonattask10.data.repository.LoginRepositoryImp
+import com.example.salonattask10.data.repository.ServiceDetailsRepositoryImp
 import com.example.salonattask10.data.repository.VerifyRepositoryImp
 import com.example.salonattask10.domain.manger.LocalUserManger
 import com.example.salonattask10.domain.repository.CategoriesRepository
 import com.example.salonattask10.domain.repository.CategoryServicesRepository
 import com.example.salonattask10.domain.repository.LoginRepository
+import com.example.salonattask10.domain.repository.ServiceDetailsRepository
 import com.example.salonattask10.domain.repository.VerifyRepository
 import com.example.salonattask10.domain.usecase.app_entry.AppEntryUseCases
 import com.example.salonattask10.domain.usecase.app_entry.ReadCenterId
@@ -75,6 +77,10 @@ object AppModule {
     @Singleton
     fun provideCategoryServicesRepository(apiService: ApiService):
             CategoryServicesRepository = CategoryServicesRepositoryImp(apiService)
+    @Provides
+    @Singleton
+    fun provideServiceDetailsRepository(apiService: ApiService):
+            ServiceDetailsRepository = ServiceDetailsRepositoryImp(apiService)
 
     @Provides
     @Singleton

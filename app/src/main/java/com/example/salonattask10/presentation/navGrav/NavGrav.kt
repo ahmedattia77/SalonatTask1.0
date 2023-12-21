@@ -6,13 +6,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.salonattask10.presentation.login.login.LoginScreen
-import com.example.salonattask10.presentation.login.verify.AppEntryEvent
 import com.example.salonattask10.presentation.login.verify.VerifyScreen
 import com.example.salonattask10.presentation.login.verify.VerifyViewModel
 import com.example.salonattask10.presentation.navigator.Navigator
+import com.example.salonattask10.presentation.showService.ShowServiceScreen
+import com.example.salonattask10.presentation.showService.ShowServiceViewModel
 
 @Composable
-fun NavGrav(startDes :String) {
+fun NavGrav(startDes: String) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = startDes) {
@@ -25,7 +26,11 @@ fun NavGrav(startDes :String) {
 
         composable(route = Route.VerifyScreen.route) {
             val viewModel: VerifyViewModel = hiltViewModel()
-            VerifyScreen(navController, event = { viewModel.onEvent(it , "" ,"")})
+            VerifyScreen(navController, event = { viewModel.onEvent(it, "", "") })
+        }
+
+        composable(route = Route.ShowService.route) {
+            ShowServiceScreen(list = null , "sunday")
         }
     }
 }
