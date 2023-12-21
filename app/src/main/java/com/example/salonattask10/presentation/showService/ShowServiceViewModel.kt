@@ -4,7 +4,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.salonattask10.data.repository.DeleteServiceRepositoryImp
 import com.example.salonattask10.data.repository.ServiceDetailsRepositoryImp
+import com.example.salonattask10.presentation.showService.state.DeleteServiceState
+import com.example.salonattask10.presentation.showService.state.ShowServiceState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okio.IOException
@@ -13,12 +16,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ShowServiceViewModel @Inject constructor(
-    private val repo: ServiceDetailsRepositoryImp
+    private val repo: ServiceDetailsRepositoryImp,
+    private val repoDelete: DeleteServiceRepositoryImp,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ShowServiceState())
     val state: State<ShowServiceState>
         get() = _state
+
+    private val _stateDelete = mutableStateOf(DeleteServiceState())
+    val stateDelete: State<DeleteServiceState>
+        get() = _stateDelete
 
     fun getService(centerId: Int, serviceId: Int) {
         viewModelScope.launch {
@@ -37,5 +45,21 @@ class ShowServiceViewModel @Inject constructor(
         }
     }
 
+    fun deleteService(centerId: Int, serviceId: Int) {
+        viewModelScope.launch {
+            try {
+                val data = repoDelete.deleteService(serviceId = serviceId, centerId = centerId)
+                _stateDelete.value = DeleteServiceState(
+                    data = data
+                )
+            } catch (e: Exception) {
+                _stateDelete.value = e.localizedMessage?.let { DeleteServiceState(error = it) }!!
+            } catch (e: IOException) {
+                _stateDelete.value = e.localizedMessage?.let { DeleteServiceState(error = it) }!!
+            } catch (e: HttpException) {
+                _stateDelete.value = e.localizedMessage?.let { DeleteServiceState(error = it) }!!
+            }
+        }
+    }
 
 }

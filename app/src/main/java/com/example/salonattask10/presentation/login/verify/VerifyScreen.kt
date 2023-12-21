@@ -108,11 +108,6 @@ fun VerifyScreen(
                     handler.postDelayed(Runnable() {
                         if (data.value != null)
                             viewmodel.state.value.data?.let {
-//                                    Toast.makeText(
-//                                        context,
-//                                        it.token,
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
                                 event(AppEntryEvent.SaveAppEntry)
                                 navController.navigate(Route.HomeScreen.route)
                             }

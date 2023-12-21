@@ -1,4 +1,4 @@
-package com.example.salonattask10.presentation.showService
+package com.example.salonattask10.presentation.showService.state
 
 import com.example.salonattask10.data.model.services_detailsJON.ServiceDetailsResponse
 

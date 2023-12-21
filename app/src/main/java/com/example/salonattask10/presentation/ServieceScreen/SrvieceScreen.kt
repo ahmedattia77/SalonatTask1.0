@@ -23,6 +23,7 @@ import com.example.salonattask10.presentation.login.component.CustomHeader
 fun ServiceScreen(
     navigationToAddServiceScreen: () -> Unit,
     navigationToHomeScreen: () -> Unit,
+    navigationToShowServiceScreen: (Data) -> Unit,
     list: List<Data>?
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
@@ -44,8 +45,7 @@ fun ServiceScreen(
                 ) {
                     items(items = list, itemContent = { item ->
                         SingleItem(item, onClick = {
-                            Log.i("singleItem", it.category_id.toString())
-                            Log.i("singleItem", it.id.toString())
+                            navigationToShowServiceScreen(it)
                         })
                     })
                 }

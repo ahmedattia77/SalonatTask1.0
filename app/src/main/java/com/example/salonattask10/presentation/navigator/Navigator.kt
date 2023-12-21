@@ -9,6 +9,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -31,12 +32,17 @@ import com.example.salonattask10.presentation.homeScreen.HomeViewModel
 import com.example.salonattask10.presentation.login.component.CircleProgressbar
 import com.example.salonattask10.presentation.navigator.component.ButtonNavigation
 import com.example.salonattask10.presentation.navigator.component.NavigationItem
+import com.example.salonattask10.presentation.showService.ShowServiceScreen
+import com.example.salonattask10.presentation.showService.ShowServiceViewModel
 
 @SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Navigator() {
     val con = LocalContext.current
+    val serviceName = remember { mutableStateOf("") }
+    val serviceId = remember { mutableIntStateOf(0) }
+
     val bottomNavigationItems = remember {
         listOf(
             NavigationItem(icon = R.drawable.home, title = "Home"),
@@ -90,19 +96,17 @@ fun Navigator() {
             composable(route = Route.HomeScreen.route) {
                 val viewmodel: HomeViewModel = hiltViewModel()
                 val data = viewmodel.state.value
-//                data.let {
-//                    Toast.makeText(con, data.error, Toast.LENGTH_SHORT).show()
-//                    Log.i("responseS" , it.error)
-//                }
-//                data.data?.let {
-//                    Log.i("responseS" , "categotyname : " + it.data[0].category_name)
-//                }
                 HomeScreen(
                     navigationToServiceScreen = {
                         navigationTo(navController, rout = Route.Service.route)
                     },
                     navigationToAddServiceScreen = {
                         navigationTo(navController, rout = Route.AddService.route)
+                    },
+                    navigationToShowServiceScreen = {
+                        serviceName.value = it.name
+                        serviceId.intValue = it.id
+                        navigationTo(navController, rout = Route.ShowService.route)
                     },
                     list = data.data?.data
                 )
@@ -111,9 +115,19 @@ fun Navigator() {
             composable(route = Route.Service.route) {
                 val viewmodel: HomeViewModel = hiltViewModel()
                 val data = viewmodel.state.value.data?.data
+                data?.let {
+                    it.forEach {
+                        Log.i("service", "service_id : " + it.id.toString())
+                    }
+                }
                 ServiceScreen(
                     navigationToAddServiceScreen = {},
                     navigationToHomeScreen = {},
+                    navigationToShowServiceScreen = {
+                        serviceName.value = it.name
+                        serviceId.intValue = it.id
+                        navigationTo(navController, rout = Route.ShowService.route)
+                    },
                     list = data
                 )
             }
@@ -122,6 +136,17 @@ fun Navigator() {
                 val category = viewModel.categoryState.value.data?.data
                 AddServiceScreen(categoryList = category)
             }
+
+            composable(route = Route.ShowService.route) {
+                val viewmodel: ShowServiceViewModel = hiltViewModel()
+                viewmodel.getService(123, serviceId.value)
+                val data = viewmodel.state.value.data?.data
+                ShowServiceScreen(
+                    list = data,
+                    serviceName.value,
+                    serviceId.intValue,
+                    navigateBack = { navigationTo(navController , Route.HomeScreen.route) })
+            }
         }
     }
 }
@@ -129,12 +154,12 @@ fun Navigator() {
 fun navigationTo(navController: NavController, rout: String) {
 
     navController.navigate(rout) {
-        navController.graph.startDestinationRoute?.let {
-            popUpTo(it) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
-        }
+//        navController.graph.startDestinationRoute?.let {
+//            popUpTo(it) {
+//                saveState = false
+//            }
+//            launchSingleTop = false
+//            restoreState = true
+//        }
     }
 }

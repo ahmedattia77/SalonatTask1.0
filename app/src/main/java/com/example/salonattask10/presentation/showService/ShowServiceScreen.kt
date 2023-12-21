@@ -1,5 +1,6 @@
 package com.example.salonattask10.presentation.showService
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,21 +20,27 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.salonattask10.R
 import com.example.salonattask10.data.model.services_detailsJON.Data
-import com.example.salonattask10.presentation.login.component.CircleProgressbar
 import com.example.salonattask10.presentation.login.component.CustomHeader
 
 @Composable
 fun ShowServiceScreen(
     list: List<Data>?,
-    serviceName: String = ""
+    serviceName: String = "",
+    serviceID: Int?,
+    navigateBack: () -> Unit
 ) {
+
+    val context = LocalContext.current
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -42,60 +49,51 @@ fun ShowServiceScreen(
             .verticalScroll(rememberScrollState())
     ) {
 
-        CustomHeader(headerTitle = serviceName.toString(), onClick = {})
+        CustomHeader(headerTitle = serviceName.toString(), onClick = { navigateBack() })
 
-        if (list == null) {
-            CircleProgressbar()
-        } else {
-            Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Prices",
-                    fontWeight = FontWeight.W600,
-                    fontSize = 24.sp
-                )
-                TextButton(
-                    onClick = {}) {
-                    Text(
-                        text = "Delete Service",
-                        fontWeight = FontWeight.W700, fontSize = 16.sp,
-                        textDecoration = TextDecoration.Underline,
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(14.dp))
-            val data = listOf<FakeData>(
-                FakeData(
-                    name = "Home",
-                    price = 100,
-                    noPerson = 1,
-                    additions = false
-                ),
-                FakeData(
-                    name = "VIP",
-                    price = 100,
-                    noPerson = 1,
-                    additions = true
-                )
+        Spacer(modifier = Modifier.height(20.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Prices",
+                fontWeight = FontWeight.W600,
+                fontSize = 24.sp
             )
-
-            data.forEach {
-                ServiceContainer(item = it)
+            val viewmodel: ShowServiceViewModel = hiltViewModel()
+            TextButton(
+                onClick = {
+                    if (serviceID != null)
+                        viewmodel.deleteService(centerId = 123, serviceId = serviceID)
+                    viewmodel.stateDelete.value.data?.message?.let {
+                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    }
+                    navigateBack()
+                }) {
+                Text(
+                    text = "Delete Service",
+                    fontWeight = FontWeight.W700, fontSize = 16.sp,
+                    textDecoration = TextDecoration.Underline,
+                )
             }
-
         }
-    }
+        Spacer(modifier = Modifier.height(14.dp))
 
+        list?.let {
+            list.forEach { item ->
+                ServiceContainer(item = item)
+            }
+        }
+
+    }
 }
 
 @Composable
-fun ServiceContainer(item: FakeData) {
+fun ServiceContainer(item: Data) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,9 +108,9 @@ fun ServiceContainer(item: FakeData) {
         CustomLine()
         CustomRow(leftSide = "Main Price", rightSide = item.price.toString())
         CustomLine()
-        CustomRow(leftSide = "Available Workers", rightSide = item.noPerson.toString())
+        CustomRow(leftSide = "Available Workers", rightSide = item.no_person.toString())
         CustomLine()
-        CustomRow(leftSide = "Additions", rightSide = item.additions.toString())
+        CustomRow(leftSide = "Additions", rightSide = item.addition.toString())
         CustomLine()
     }
     Spacer(modifier = Modifier.height(20.dp))
@@ -184,10 +182,3 @@ fun CustomLine() {
             .padding(horizontal = 16.dp)
     )
 }
-
-data class FakeData(
-    val name: String,
-    val price: Int = 100,
-    val noPerson: Int,
-    val additions: Boolean
-)

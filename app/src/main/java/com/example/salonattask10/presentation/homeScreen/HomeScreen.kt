@@ -46,6 +46,7 @@ import com.example.salonattask10.presentation.login.component.CircleProgressbar
 @Composable
 fun HomeScreen(
     navigationToServiceScreen: () -> Unit,
+    navigationToShowServiceScreen: (Data) -> Unit,
     navigationToAddServiceScreen: () -> Unit,
     list: List<Data>?
 ) {
@@ -132,20 +133,23 @@ fun HomeScreen(
 
         if (list == null)
             CircleProgressbar()
-        else
-        list?.let {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(240.dp)
-            ) {
-                items(items = list, itemContent = { item ->
-                    SingleItem(item , onClick = {})
-                })
+        else {
+            list.let {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(240.dp)
+                ) {
+                    items(items = list, itemContent = { item ->
+                        SingleItem(item, onClick = { navigationToShowServiceScreen(item) })
+                    })
+                }
+                Spacer(modifier = Modifier.height(20.dp))
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            CustomButton(label = "Add Service", onClick = { navigationToAddServiceScreen() })
         }
+
+        CustomButton(label = "Add Service", onClick = { navigationToAddServiceScreen() })
     }
+
 
 }

@@ -6,12 +6,14 @@ import com.example.salonattask10.data.local.LocalUserMangerImp
 import com.example.salonattask10.data.remote.ApiService
 import com.example.salonattask10.data.repository.CategoriesRepositoryImp
 import com.example.salonattask10.data.repository.CategoryServicesRepositoryImp
+import com.example.salonattask10.data.repository.DeleteServiceRepositoryImp
 import com.example.salonattask10.data.repository.LoginRepositoryImp
 import com.example.salonattask10.data.repository.ServiceDetailsRepositoryImp
 import com.example.salonattask10.data.repository.VerifyRepositoryImp
 import com.example.salonattask10.domain.manger.LocalUserManger
 import com.example.salonattask10.domain.repository.CategoriesRepository
 import com.example.salonattask10.domain.repository.CategoryServicesRepository
+import com.example.salonattask10.domain.repository.DeleteServiceRepository
 import com.example.salonattask10.domain.repository.LoginRepository
 import com.example.salonattask10.domain.repository.ServiceDetailsRepository
 import com.example.salonattask10.domain.repository.VerifyRepository
@@ -77,10 +79,16 @@ object AppModule {
     @Singleton
     fun provideCategoryServicesRepository(apiService: ApiService):
             CategoryServicesRepository = CategoryServicesRepositoryImp(apiService)
+
     @Provides
     @Singleton
     fun provideServiceDetailsRepository(apiService: ApiService):
             ServiceDetailsRepository = ServiceDetailsRepositoryImp(apiService)
+
+    @Provides
+    @Singleton
+    fun provideDeleteServiceRepository(apiService: ApiService):
+            DeleteServiceRepository = DeleteServiceRepositoryImp(apiService)
 
     @Provides
     @Singleton
