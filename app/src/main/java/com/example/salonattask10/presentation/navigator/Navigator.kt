@@ -29,7 +29,6 @@ import com.example.salonattask10.presentation.addServiceScreen.AddServiceScreen
 import com.example.salonattask10.presentation.addServiceScreen.AddServiceViewModel
 import com.example.salonattask10.presentation.homeScreen.HomeScreen
 import com.example.salonattask10.presentation.homeScreen.HomeViewModel
-import com.example.salonattask10.presentation.login.component.CircleProgressbar
 import com.example.salonattask10.presentation.navigator.component.ButtonNavigation
 import com.example.salonattask10.presentation.navigator.component.NavigationItem
 import com.example.salonattask10.presentation.showService.ShowServiceScreen

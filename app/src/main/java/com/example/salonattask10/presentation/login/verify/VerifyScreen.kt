@@ -1,8 +1,6 @@
 package com.example.salonattask10.presentation.login.verify
 
 import android.annotation.SuppressLint
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,15 +26,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.salonattask10.R
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
-import com.example.salonattask10.presentation.login.component.CircleProgressbar
-import com.example.salonattask10.presentation.login.component.CustomHeader
-import com.example.salonattask10.presentation.login.component.VerifyTextFields
-import com.example.salonattask10.presentation.login.login.LoginViewModel
+import com.example.salonattask10.presentation.common.CircleProgressbar
+import com.example.salonattask10.presentation.common.CustomHeader
+import com.example.salonattask10.presentation.common.VerifyTextFields
 import com.example.salonattask10.presentation.navGrav.Route
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.delay
-import okhttp3.internal.wait
-import java.util.logging.Handler
 
 @SuppressLint("SuspiciousIndentation")
 @Composable

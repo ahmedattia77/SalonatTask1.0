@@ -1,6 +1,5 @@
 package com.example.salonattask10.presentation.ServieceScreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +14,9 @@ import androidx.compose.ui.unit.dp
 import com.example.salonattask10.R
 import com.example.salonattask10.data.model.serviceJON.Data
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
-import com.example.salonattask10.presentation.homeScreen.component.SingleItem
-import com.example.salonattask10.presentation.login.component.CircleProgressbar
-import com.example.salonattask10.presentation.login.component.CustomHeader
+import com.example.salonattask10.presentation.common.SingleItem
+import com.example.salonattask10.presentation.common.CircleProgressbar
+import com.example.salonattask10.presentation.common.CustomHeader
 
 @Composable
 fun ServiceScreen(

@@ -3,6 +3,7 @@ package com.example.salonattask10.data.remote
 
 import com.example.salonattask10.data.model.addService.AddServiceInput
 import com.example.salonattask10.data.model.addServiceJON.AddServiceResponse
+import com.example.salonattask10.data.model.cateServiceJON.catServiceResponse
 import com.example.salonattask10.data.model.categoriesJON.CategoriesResponse
 import com.example.salonattask10.data.model.category_servicesJON.CategoryServiesResponse
 import com.example.salonattask10.data.model.deleteServiceJON.DeleteServiceResponse
@@ -43,10 +44,11 @@ interface ApiService {
     @GET("categories")
     suspend fun getCategories(): CategoriesResponse
 
-    @GET("Back/categories")
+    //categories/5/services
+    @GET("categories/{id}/services")
     suspend fun getCategoryServices(
-        @Query("id") id: Int
-    ): CategoryServiesResponse
+        @Path("id") id: Int
+    ): catServiceResponse
 
     @GET("Back/show/center/{center_id}/service/{service_id}")
     suspend fun showService(
@@ -62,7 +64,7 @@ interface ApiService {
 
     @POST("Back/addservice")
     suspend fun addService(
-        @Body addService: AddServiceInput
+        @Body service: AddServiceInput
     ): AddServiceResponse
 
 

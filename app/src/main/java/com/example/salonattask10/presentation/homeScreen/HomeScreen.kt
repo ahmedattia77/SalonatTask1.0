@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -25,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -38,9 +35,8 @@ import com.example.salonattask10.R
 import com.example.salonattask10.data.model.serviceJON.Data
 import com.example.salonattask10.presentation.Dimens
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
-import com.example.salonattask10.presentation.homeScreen.component.FakeService
-import com.example.salonattask10.presentation.homeScreen.component.SingleItem
-import com.example.salonattask10.presentation.login.component.CircleProgressbar
+import com.example.salonattask10.presentation.common.SingleItem
+import com.example.salonattask10.presentation.common.CircleProgressbar
 
 @SuppressLint("SuspiciousIndentation")
 @Composable

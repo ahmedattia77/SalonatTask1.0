@@ -24,9 +24,8 @@ import com.example.salonattask10.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextField(
-    hint: Int, type: KeyboardType ,
-
-) : String {
+    hint: Int, type: KeyboardType,
+    ): String {
     val textValue = remember {
         mutableStateOf("")
     }
@@ -47,7 +46,7 @@ fun TextField(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedLabelColor = colorResource(id = R.color.darkPink),
             focusedBorderColor = Color.Gray,
-            textColor = Color.Black ,
+            textColor = Color.Black,
             cursorColor = colorResource(id = R.color.darkPink)
         ),
         shape = RoundedCornerShape(12.dp),

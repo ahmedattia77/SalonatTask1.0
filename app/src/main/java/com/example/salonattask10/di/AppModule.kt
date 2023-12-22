@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.salonattask10.Constants
 import com.example.salonattask10.data.local.LocalUserMangerImp
 import com.example.salonattask10.data.remote.ApiService
+import com.example.salonattask10.data.repository.AddServiceRepositoryImp
 import com.example.salonattask10.data.repository.CategoriesRepositoryImp
 import com.example.salonattask10.data.repository.CategoryServicesRepositoryImp
 import com.example.salonattask10.data.repository.DeleteServiceRepositoryImp
@@ -11,6 +12,7 @@ import com.example.salonattask10.data.repository.LoginRepositoryImp
 import com.example.salonattask10.data.repository.ServiceDetailsRepositoryImp
 import com.example.salonattask10.data.repository.VerifyRepositoryImp
 import com.example.salonattask10.domain.manger.LocalUserManger
+import com.example.salonattask10.domain.repository.AddServiceRepository
 import com.example.salonattask10.domain.repository.CategoriesRepository
 import com.example.salonattask10.domain.repository.CategoryServicesRepository
 import com.example.salonattask10.domain.repository.DeleteServiceRepository
@@ -89,6 +91,11 @@ object AppModule {
     @Singleton
     fun provideDeleteServiceRepository(apiService: ApiService):
             DeleteServiceRepository = DeleteServiceRepositoryImp(apiService)
+
+    @Provides
+    @Singleton
+    fun provideAddServiceRepository(apiService: ApiService):
+            AddServiceRepository = AddServiceRepositoryImp(apiService)
 
     @Provides
     @Singleton

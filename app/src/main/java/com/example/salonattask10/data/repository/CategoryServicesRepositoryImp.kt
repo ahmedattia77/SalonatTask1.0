@@ -1,5 +1,6 @@
 package com.example.salonattask10.data.repository
 
+import com.example.salonattask10.data.model.cateServiceJON.catServiceResponse
 import com.example.salonattask10.data.model.categoriesJON.CategoriesResponse
 import com.example.salonattask10.data.model.category_servicesJON.CategoryServiesResponse
 import com.example.salonattask10.data.remote.ApiService
@@ -12,7 +13,7 @@ class CategoryServicesRepositoryImp @Inject constructor(
     private val apiService: ApiService,
 
     ) : CategoryServicesRepository {
-    override suspend fun getCategories(id: Int): CategoryServiesResponse =
+    override suspend fun getCategoryServices(id: Int): catServiceResponse =
         apiService.getCategoryServices(id = id)
 
 }

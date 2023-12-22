@@ -30,8 +30,8 @@ import androidx.navigation.NavHostController
 import com.example.salonattask10.R
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.addServiceScreen.component.TextField
-import com.example.salonattask10.presentation.login.component.CircleProgressbar
-import com.example.salonattask10.presentation.login.component.CustomHeader
+import com.example.salonattask10.presentation.common.CircleProgressbar
+import com.example.salonattask10.presentation.common.CustomHeader
 import com.example.salonattask10.presentation.navGrav.Route
 
 @SuppressLint("SuspiciousIndentation")

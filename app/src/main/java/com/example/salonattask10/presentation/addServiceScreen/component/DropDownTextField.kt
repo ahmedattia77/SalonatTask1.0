@@ -30,8 +30,8 @@ import com.example.salonattask10.data.model.category_servicesJON.Data
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropDown(
-    listService: List<Data>? = null, hint: Int,
-    onClickService: (Data) -> Unit
+    listService: List<com.example.salonattask10.data.model.cateServiceJON.Data>? = null, hint: Int,
+    onClickService: (com.example.salonattask10.data.model.cateServiceJON.Data) -> Unit
 ) {
 
     var expanded by remember { mutableStateOf(false) }

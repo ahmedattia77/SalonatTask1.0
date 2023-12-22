@@ -1,4 +1,4 @@
-package com.example.salonattask10.presentation.login.component
+package com.example.salonattask10.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

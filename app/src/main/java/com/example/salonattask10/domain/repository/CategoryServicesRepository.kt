@@ -1,8 +1,7 @@
 package com.example.salonattask10.domain.repository
 
-import com.example.salonattask10.data.model.category_servicesJON.CategoryServiesResponse
-
+import com.example.salonattask10.data.model.cateServiceJON.catServiceResponse
 
 interface CategoryServicesRepository {
-    suspend fun getCategories (id:Int) : CategoryServiesResponse
+    suspend fun getCategoryServices (id:Int) : catServiceResponse
 }
