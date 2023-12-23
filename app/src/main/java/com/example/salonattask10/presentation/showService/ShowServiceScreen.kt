@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.salonattask10.Constants
 import com.example.salonattask10.data.model.services_detailsJON.Data
 import com.example.salonattask10.presentation.common.CustomHeader
@@ -35,6 +36,7 @@ fun ShowServiceScreen(
     serviceID: Int?,
     navigateBack: () -> Unit,
     refresh: () -> Unit,
+    navController: NavHostController
 ) {
     val context = LocalContext.current
 
@@ -46,8 +48,8 @@ fun ShowServiceScreen(
             .verticalScroll(rememberScrollState())
     ) {
 
-        CustomHeader(headerTitle = "Service", onClick = {
-            navigateBack()
+        CustomHeader(headerTitle = serviceName, onClick = {
+            navController.popBackStack()
             Log.i("showServiceBack", "clicked")
         })
 
@@ -84,6 +86,7 @@ fun ShowServiceScreen(
                 )
             }
         }
+
         Spacer(modifier = Modifier.height(14.dp))
         val viewmodel: ShowServiceViewModel = hiltViewModel()
 

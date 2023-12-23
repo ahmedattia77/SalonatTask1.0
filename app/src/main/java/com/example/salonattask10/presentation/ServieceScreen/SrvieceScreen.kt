@@ -29,7 +29,7 @@ fun ServiceScreen(
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
         CustomHeader(
-            headerTitle = R.string.service.toString(),
+            headerTitle = "Service",
             onClick = { navController.popBackStack() })
 
         Spacer(modifier = Modifier.height(20.dp))

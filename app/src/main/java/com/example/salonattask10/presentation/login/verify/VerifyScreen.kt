@@ -2,6 +2,7 @@ package com.example.salonattask10.presentation.login.verify
 
 import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,8 +36,7 @@ import com.example.salonattask10.presentation.navGrav.Route
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun VerifyScreen(
-    navController: NavHostController,
-//    event: (AppEntryEvent) -> Unit,
+    navController: NavHostController
 ) {
     val context = LocalContext.current
     val isLoading = remember { mutableStateOf(false) }
@@ -93,29 +93,30 @@ fun VerifyScreen(
             CustomButton(
                 label = stringResource(id = R.string.next),
                 onClick = {
-//                    if (verifyCode.length == 6) {
-                    viewmodel.verify(phone = "1211000009", code = "123456")
+                    if (verifyCode.length == 6) {
+                        viewmodel.verify(phone = "1211000009", code = "123456")
 
-                    data.value = viewmodel.state.value
-                    isLoading.value = true
-                    handler.postDelayed(Runnable() {
-                        if (data.value != null)
-                            viewmodel.state.value.data?.let { response ->
-                                Log.i("loginData" , response.token)
-                                Log.i("loginData" , response.data.id.toString())
-                                viewmodel.onEvent(
-                                    token = response.token ,
-                                    centerId = response.data.id.toString())
-                                navController.navigate(Route.HomeScreen.route)
-                            }
-                    }, 1500)
+                        data.value = viewmodel.state.value
+                        isLoading.value = true
+                        handler.postDelayed(Runnable() {
+                            if (data.value != null)
+                                viewmodel.state.value.data?.let { response ->
+                                    Log.i("loginData", response.token)
+                                    Log.i("loginData", response.data.id.toString())
+                                    viewmodel.onEvent(
+                                        token = response.token,
+                                        centerId = response.data.id.toString()
+                                    )
+                                    navController.navigate(Route.HomeScreen.route)
+                                }
+                        }, 1500)
 
-//                    } else
-//                        Toast.makeText(
-//                            context,
-//                            "please enter valid code",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
+                    } else
+                        Toast.makeText(
+                            context,
+                            "please enter valid code",
+                            Toast.LENGTH_SHORT
+                        ).show()
                 })
 
             Row(

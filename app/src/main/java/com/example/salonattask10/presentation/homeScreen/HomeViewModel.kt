@@ -37,6 +37,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getService() {
         viewModelScope.launch {
+            delay(150)
             try {
                 val data = repo.getService(
                     centerId = Constants.LOCAL_CENTER_ID
