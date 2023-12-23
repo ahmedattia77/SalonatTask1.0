@@ -1,15 +1,19 @@
 package com.example.salonattask10.presentation.homeScreen
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.salonattask10.Constants
 import com.example.salonattask10.data.repository.ServiceRepositoryImp
 import com.example.salonattask10.domain.usecase.app_entry.AppEntryUseCases
-import com.example.salonattask10.presentation.Dimens
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
@@ -22,8 +26,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = mutableStateOf(HomeState())
-    private val _token = mutableStateOf<Flow<String>>(emptyFlow())
-    private val _centerId = mutableStateOf<Flow<String>>(emptyFlow())
+    private val _centerId = mutableStateOf("")
 
     val state: State<HomeState>
         get() = _state
@@ -32,11 +35,12 @@ class HomeViewModel @Inject constructor(
         getService()
     }
 
-    // access token center_id needed
-    fun getService() {
+    private fun getService() {
         viewModelScope.launch {
             try {
-                val data = repo.getService(bearer = Dimens.token, centerId = Dimens.centerId)
+                val data = repo.getService(
+                    centerId = Constants.LOCAL_CENTER_ID
+                )
                 _state.value = HomeState(
                     data = data
                 )
@@ -51,19 +55,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getToken() {
-        viewModelScope.launch {
-            try {
-                _token.value = appUseCase.readToken.invoke()
-            } catch (e: Exception) { }
-        }
-    }
 
-    private fun getCenterId() {
-        viewModelScope.launch {
-            try {
-                _centerId.value = appUseCase.readCenterId.invoke()
-            } catch (e: Exception) { }
-        }
-    }
 }

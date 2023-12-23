@@ -26,7 +26,7 @@ fun NavGrav(startDes: String) {
 
         composable(route = Route.VerifyScreen.route) {
             val viewModel: VerifyViewModel = hiltViewModel()
-            VerifyScreen(navController, event = { viewModel.onEvent(it, "", "") })
+            VerifyScreen(navController)
         }
     }
 }

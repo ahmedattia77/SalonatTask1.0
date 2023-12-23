@@ -36,9 +36,9 @@ interface ApiService {
         @Field("code") code: String
     ): VerifyResponse
 
-    @GET("Back/services")
+    @GET("Back/center/{id}/services")
     suspend fun getService(
-        @Query("center_id") center_id: Int
+        @Path("id") center_id: String
     ): ServiceResponse
 
     @GET("categories")

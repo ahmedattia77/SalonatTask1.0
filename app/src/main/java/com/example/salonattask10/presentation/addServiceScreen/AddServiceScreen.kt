@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.salonattask10.Constants
 import com.example.salonattask10.R
 import com.example.salonattask10.data.model.addService.AddServiceInput
 import com.example.salonattask10.data.model.addService.AddServices
@@ -330,7 +331,7 @@ fun AddServiceScreen(
                 )
             val service = AddServiceInput(
                 serviceId = serviceId.intValue,
-                centerId = 123,
+                centerId = Constants.LOCAL_CENTER_ID.toInt(),
                 services = list
             )
 
@@ -349,7 +350,8 @@ fun AddServiceScreen(
 //                        }
 
                         viewmodel.addServicesSate.value.error.let {
-                            Toast.makeText(context,R.string.addServiceError, Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_LONG)
+                                .show()
                         }
 
 //                        viewmodel.addServicesSate.value.data?.message?.let {

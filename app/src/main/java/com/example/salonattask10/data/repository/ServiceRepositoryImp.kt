@@ -11,7 +11,7 @@ class ServiceRepositoryImp @Inject constructor(
     private val apiService: ApiService,
 ) : ServiceRepository {
 
-    override suspend fun getService(bearer: String , centerId:Int): ServiceResponse {
+    override suspend fun getService(centerId:String): ServiceResponse {
         val data = apiService.getService( center_id = centerId )
         Log.i("responseL" , data.message)
         return data

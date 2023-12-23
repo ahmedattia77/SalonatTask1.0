@@ -120,8 +120,7 @@ object AppModule {
         readToken = ReadToken(localUserManger),
         saveToken = SaveToken(localUserManger),
         readCenterId = ReadCenterId(localUserManger),
-        saveCenterId = SaveCenterId(localUserManger)
-    )
+        saveCenterId = SaveCenterId(localUserManger))
 
 //    return Retrofit.Builder()
 //    .baseUrl(Constants.BASE_URL)

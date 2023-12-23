@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class VerifyViewModel @Inject constructor(
-    private val repo: VerifyRepositoryImp ,
+    private val repo: VerifyRepositoryImp,
     private val appEntryUseCases: AppEntryUseCases
 ) : ViewModel() {
 
@@ -55,34 +55,30 @@ class VerifyViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: AppEntryEvent , token:String , centerId: String){
-        when(event){
-            AppEntryEvent.SaveAppEntry ->{
-                saveAppEntry()
-                saveToken(token = token)
-                saveCenterId(centerId = centerId)
-            }
-        }
+    fun onEvent(token: String, centerId: String) {
+        saveAppEntry()
+        saveCenterId(centerId)
+        saveToken(token)
     }
 
-    private fun saveAppEntry(){
+    private fun saveAppEntry() {
         viewModelScope.launch {
             appEntryUseCases.saveUserEntry()
         }
     }
-
 
     private fun saveToken(token: String) {
         viewModelScope.launch {
-            appEntryUseCases.saveUserEntry()
+            Log.i("saveData" , token)
+            appEntryUseCases.saveToken(token)
         }
     }
 
     private fun saveCenterId(centerId: String) {
         viewModelScope.launch {
-            appEntryUseCases.saveUserEntry()
+            Log.i("saveData" , centerId)
+            appEntryUseCases.saveCenterId(centerId)
         }
     }
 
 }
-

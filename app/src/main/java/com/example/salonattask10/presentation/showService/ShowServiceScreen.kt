@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.salonattask10.Constants
 import com.example.salonattask10.data.model.services_detailsJON.Data
 import com.example.salonattask10.presentation.common.CustomHeader
 import com.example.salonattask10.presentation.showService.component.ServiceContainer
@@ -33,7 +34,7 @@ fun ShowServiceScreen(
     serviceName: String = "",
     serviceID: Int?,
     navigateBack: () -> Unit,
-    refresh: () -> Unit ,
+    refresh: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -47,7 +48,7 @@ fun ShowServiceScreen(
 
         CustomHeader(headerTitle = "Service", onClick = {
             navigateBack()
-            Log.i("showServiceBack" , "clicked")
+            Log.i("showServiceBack", "clicked")
         })
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -67,7 +68,10 @@ fun ShowServiceScreen(
             TextButton(
                 onClick = {
                     if (serviceID != null)
-                        viewmodel.deleteService(centerId = 123, serviceId = serviceID)
+                        viewmodel.deleteService(
+                            centerId = Constants.LOCAL_CENTER_ID.toInt(),
+                            serviceId = serviceID
+                        )
                     viewmodel.stateDelete.value.data?.message?.let {
                         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     }
@@ -88,7 +92,7 @@ fun ShowServiceScreen(
                 ServiceContainer(item = item, onClick = {
                     viewmodel.deleteServiceType(
                         serviceId = serviceID ?: 0,
-                        centerId = 123,
+                        centerId = Constants.LOCAL_CENTER_ID.toInt(),
                         serviceTypeId = it.type_id
                     )
                     viewmodel.stateDeleteServiceType.value.data?.let {

@@ -43,12 +43,12 @@ class LocalUserMangerImp(
 
     override fun readToken(): Flow<String> =
         context.dataStore.data.map { pref ->
-            pref[PreferencesKey.TOKEN] ?: ""
+            pref[PreferencesKey.TOKEN] ?: "null"
         }
 
     override fun readCenterId(): Flow<String> =
         context.dataStore.data.map { pref ->
-            pref[PreferencesKey.CENTER_ID] ?: ""
+            pref[PreferencesKey.CENTER_ID] ?: "null"
         }
 }
 

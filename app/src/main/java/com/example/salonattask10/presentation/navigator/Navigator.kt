@@ -22,6 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.salonattask10.Constants
 import com.example.salonattask10.R
 import com.example.salonattask10.presentation.navGrav.Route
 import com.example.salonattask10.presentation.ServieceScreen.ServiceScreen
@@ -114,11 +115,6 @@ fun Navigator() {
             composable(route = Route.Service.route) {
                 val viewmodel: HomeViewModel = hiltViewModel()
                 val data = viewmodel.state.value.data?.data
-                data?.let {
-                    it.forEach {
-                        Log.i("service", "service_id : " + it.id.toString())
-                    }
-                }
                 ServiceScreen(
                     navigationToAddServiceScreen = {
                         navigationTo(navController, rout = Route.AddService.route)
@@ -144,7 +140,7 @@ fun Navigator() {
 
             composable(route = Route.ShowService.route) {
                 val viewmodel: ShowServiceViewModel = hiltViewModel()
-                viewmodel.getService(123, serviceId.value)
+                viewmodel.getService(Constants.LOCAL_CENTER_ID.toInt(), serviceId.value)
                 val data = viewmodel.state.value.data?.data
                 ShowServiceScreen(
                     list = data,

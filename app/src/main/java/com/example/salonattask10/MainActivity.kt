@@ -24,6 +24,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                viewModel.appEntryCheck.value
+            }
+        }
+
         setContent {
             SalonatTask10Theme {
                 // A surface container using the 'background' color from the theme
@@ -31,9 +37,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    val startDestination = viewModel.startDestination
-                    val startDes = Route.HomeScreen.route
-                    NavGrav(startDes = startDes)
+                    val startDestination = viewModel.startDestination.value
+                    val startDes = Route.LoginScreen.route
+                    NavGrav(startDes = startDestination)
                 }
             }
         }
