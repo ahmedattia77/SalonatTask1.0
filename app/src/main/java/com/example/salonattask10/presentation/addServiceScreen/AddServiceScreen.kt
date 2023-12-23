@@ -336,30 +336,31 @@ fun AddServiceScreen(
             if (isHomeSelected.value || isVipSelected.value ||
                 isProSelected.value || isNormalSelected.value && serviceId.intValue != 0
             ) {
-                viewmodel.addService(service = service)
-                handler.postDelayed(Runnable {
-                    viewmodel.addServicesSate.value.data?.message?.let {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                    }
+                if (categoryId.value != 0 && serviceId.value != 0) {
+                    viewmodel.addService(service = service)
+                    handler.postDelayed(Runnable {
+                        viewmodel.addServicesSate.value.data?.message?.let {
+                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                        }
 
-                    viewmodel.addServicesSate.value.error.let {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                    }
+                        viewmodel.addServicesSate.value.error.let {
+                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                        }
 
-                    viewmodel.addServicesSate.value.data?.message?.let {
-                        Toast.makeText(
-                            context,
-                            R.string.addServiceError.toString(),
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
+                        viewmodel.addServicesSate.value.data?.message?.let {
+                            Toast.makeText(
+                                context,
+                                R.string.addServiceError.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
 
-                    navigateBack()
-                }, 1000)
+                        navigateBack()
+                    }, 1000)
+                }else Toast.makeText(context, "select category && service type", Toast.LENGTH_SHORT).show()
             } else
                 Toast.makeText(context, "At least select one field", Toast.LENGTH_SHORT).show()
-
         })
         Spacer(modifier = Modifier.height(20.dp))
     }
