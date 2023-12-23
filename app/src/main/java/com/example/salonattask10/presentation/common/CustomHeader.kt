@@ -18,7 +18,7 @@ import com.example.salonattask10.R
 import com.example.salonattask10.presentation.Dimens
 
 @Composable
-fun CustomHeader(headerTitle:String , onClick:() -> Unit){
+fun CustomHeader(headerTitle: String, onClick: () -> Unit) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,11 +42,13 @@ fun CustomHeader(headerTitle:String , onClick:() -> Unit){
         Icon(
             painter = painterResource(id = R.drawable.ic_arrow_back),
             contentDescription = "icon_back",
-            modifier = Modifier.constrainAs(backArrow) {
-                start.linkTo(parent.start, margin = 12.dp)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            }.clickable { onClick() }
+            modifier = Modifier
+                .constrainAs(backArrow) {
+                    start.linkTo(parent.start, margin = 12.dp)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
+                .clickable { onClick() }
         )
     }
 }

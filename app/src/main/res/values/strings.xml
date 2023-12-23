@@ -16,5 +16,6 @@
     <string name="terms_conditions">terms &amp; conditions</string>
     <string name="login">Login</string>
     <string name="verification">Verification Code</string>
+    <string name="addServiceError">Home Must be greater than Vip, Vip Must be greater than Prof, Prof Must be greater than Normal</string>
     <string name="There_are">There are no requests right now create new service and offers to be moe active</string>
 </resources>

@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.salonattask10.R
 import com.example.salonattask10.data.model.serviceJON.Data
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
@@ -23,12 +24,13 @@ fun ServiceScreen(
     navigationToAddServiceScreen: () -> Unit,
     navigationToHomeScreen: () -> Unit,
     navigationToShowServiceScreen: (Data) -> Unit,
-    list: List<Data>?
+    list: List<Data>? ,
+    navController:NavHostController
 ) {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Top) {
         CustomHeader(
             headerTitle = R.string.service.toString(),
-            onClick = { navigationToHomeScreen() })
+            onClick = { navController.popBackStack() })
 
         Spacer(modifier = Modifier.height(20.dp))
 

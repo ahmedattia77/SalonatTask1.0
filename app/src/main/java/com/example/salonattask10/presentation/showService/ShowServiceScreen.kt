@@ -1,5 +1,6 @@
 package com.example.salonattask10.presentation.showService
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,8 +32,8 @@ fun ShowServiceScreen(
     list: List<Data>?,
     serviceName: String = "",
     serviceID: Int?,
-    navigateBack: () -> Unit ,
-    refresh : () -> Unit
+    navigateBack: () -> Unit,
+    refresh: () -> Unit ,
 ) {
     val context = LocalContext.current
 
@@ -44,7 +45,10 @@ fun ShowServiceScreen(
             .verticalScroll(rememberScrollState())
     ) {
 
-        CustomHeader(headerTitle = serviceName.toString(), onClick = { navigateBack() })
+        CustomHeader(headerTitle = "Service", onClick = {
+            navigateBack()
+            Log.i("showServiceBack" , "clicked")
+        })
 
         Spacer(modifier = Modifier.height(20.dp))
         Row(
@@ -77,12 +81,20 @@ fun ShowServiceScreen(
             }
         }
         Spacer(modifier = Modifier.height(14.dp))
-        val viewmodel:ShowServiceViewModel = hiltViewModel()
+        val viewmodel: ShowServiceViewModel = hiltViewModel()
 
         list?.let {
             list.forEach { item ->
-                ServiceContainer(item = item , onClick = {
-
+                ServiceContainer(item = item, onClick = {
+                    viewmodel.deleteServiceType(
+                        serviceId = serviceID ?: 0,
+                        centerId = 123,
+                        serviceTypeId = it.type_id
+                    )
+                    viewmodel.stateDeleteServiceType.value.data?.let {
+                        Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    refresh()
                 })
             }
         }

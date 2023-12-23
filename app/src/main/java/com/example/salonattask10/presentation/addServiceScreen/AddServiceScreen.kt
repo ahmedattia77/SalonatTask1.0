@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.salonattask10.R
 import com.example.salonattask10.data.model.addService.AddServiceInput
 import com.example.salonattask10.data.model.addService.AddServices
@@ -50,8 +52,9 @@ import com.example.salonattask10.presentation.navGrav.Route
 
 @Composable
 fun AddServiceScreen(
-    categoryList: List<Data>? ,
-    navigateBack : () -> Unit
+    categoryList: List<Data>?,
+    navigateBack: () -> Unit,
+    navHostController: NavHostController
 ) {
     val context = LocalContext.current
     val handler: android.os.Handler = android.os.Handler();
@@ -111,11 +114,13 @@ fun AddServiceScreen(
             Icon(
                 painter = painterResource(id = R.drawable.ic_arrow_back),
                 contentDescription = "not",
-                modifier = Modifier.constrainAs(backArrow) {
-                    start.linkTo(parent.start, margin = 12.dp)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                }
+                modifier = Modifier
+                    .constrainAs(backArrow) {
+                        start.linkTo(parent.start, margin = 12.dp)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                    .clickable { navHostController.popBackStack() }
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
@@ -280,7 +285,7 @@ fun AddServiceScreen(
                         typeId = 4, // home
                         price = homePrice.value,
                         noPerson = homePersonNo.value,
-                        addition = 1,
+                        addition = 0,
                         offerPrice = null,
                         from = "2022-07-22 15:48:00",
                         to = "2024-09-28 15:48:00"
@@ -292,7 +297,7 @@ fun AddServiceScreen(
                         typeId = 3, // vip
                         price = vipPrice.value,
                         noPerson = vipPersonNo.value,
-                        addition = 1,
+                        addition = if (isVipAdditionSelected.value) 1 else 0,
                         offerPrice = null,
                         from = "2022-07-22 15:48:00",
                         to = "2024-09-28 15:48:00"
@@ -304,7 +309,7 @@ fun AddServiceScreen(
                         typeId = 2, // pro
                         price = proPrice.value,
                         noPerson = proPersonNo.value,
-                        addition = 1,
+                        addition = if (isProAdditionSelected.value) 1 else 0,
                         offerPrice = null,
                         from = "2022-07-22 15:48:00",
                         to = "2024-09-28 15:48:00"
@@ -316,7 +321,7 @@ fun AddServiceScreen(
                         typeId = 1, // normal
                         price = normalPrice.value,
                         noPerson = normalPersonNo.value,
-                        addition = 1,
+                        addition = if (isNormalAddOfferSelected.value) 1 else 0,
                         offerPrice = null,
                         from = "2022-07-22 15:48:00",
                         to = "2024-09-28 15:48:00"
@@ -327,19 +332,33 @@ fun AddServiceScreen(
                 centerId = 123,
                 services = list
             )
-//            if (homePrice.value > vipPrice.value &&
-//                vipPrice.value > proPrice.value &&
-//                proPrice.value) > normalPrice.value)
-            viewmodel.addService(service = service)
-            handler.postDelayed(Runnable() {
-                viewmodel.addServicesSate.value.data?.message?.let {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                }
-                viewmodel.addServicesSate.value.error.let {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                }
-                navigateBack ()
-            }, 1000)
+
+            if (isHomeSelected.value || isVipSelected.value ||
+                isProSelected.value || isNormalSelected.value && serviceId.intValue != 0
+            ) {
+                viewmodel.addService(service = service)
+                handler.postDelayed(Runnable {
+                    viewmodel.addServicesSate.value.data?.message?.let {
+                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    }
+
+                    viewmodel.addServicesSate.value.error.let {
+                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    }
+
+                    viewmodel.addServicesSate.value.data?.message?.let {
+                        Toast.makeText(
+                            context,
+                            R.string.addServiceError.toString(),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+
+                    navigateBack()
+                }, 1000)
+            } else
+                Toast.makeText(context, "At least select one field", Toast.LENGTH_SHORT).show()
 
         })
         Spacer(modifier = Modifier.height(20.dp))

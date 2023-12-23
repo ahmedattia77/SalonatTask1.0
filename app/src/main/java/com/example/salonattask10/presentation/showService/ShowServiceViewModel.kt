@@ -73,31 +73,37 @@ class ShowServiceViewModel @Inject constructor(
         serviceId: Int,
         serviceTypeId: Int
     ) {
-        try {
-
-        } catch (e: Exception) {
-            e.localizedMessage?.let {
-                _stateDeleteServiceType.value = DeleteServiceState(
-                    error = it
+        viewModelScope.launch {
+            try {
+                val data = repoDeleteServiceType.deleteServiceType(
+                    centerId = centerId,
+                    serviceId = serviceId,
+                    typeId = serviceTypeId
                 )
-            }
-
-        } catch (e: HttpException) {
-            e.localizedMessage?.let {
                 _stateDeleteServiceType.value = DeleteServiceState(
-                    error = it
+                    data = data
                 )
-            }
+            } catch (e: Exception) {
+                e.localizedMessage?.let {
+                    _stateDeleteServiceType.value = DeleteServiceState(
+                        error = it
+                    )
+                }
 
-        } catch (e: IOException) {
-            e.localizedMessage?.let {
-                _stateDeleteServiceType.value = DeleteServiceState(
-                    error = it
-                )
+            } catch (e: HttpException) {
+                e.localizedMessage?.let {
+                    _stateDeleteServiceType.value = DeleteServiceState(
+                        error = it
+                    )
+                }
+
+            } catch (e: IOException) {
+                e.localizedMessage?.let {
+                    _stateDeleteServiceType.value = DeleteServiceState(
+                        error = it
+                    )
+                }
             }
         }
-
-
     }
-
 }

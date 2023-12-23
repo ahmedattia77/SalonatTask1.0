@@ -120,14 +120,17 @@ fun Navigator() {
                     }
                 }
                 ServiceScreen(
-                    navigationToAddServiceScreen = {},
+                    navigationToAddServiceScreen = {
+                        navigationTo(navController, rout = Route.AddService.route)
+                    },
                     navigationToHomeScreen = {},
                     navigationToShowServiceScreen = {
                         serviceName.value = it.name
                         serviceId.intValue = it.id
                         navigationTo(navController, rout = Route.ShowService.route)
                     },
-                    list = data
+                    list = data,
+                    navController = navController
                 )
             }
             composable(route = Route.AddService.route) {
@@ -135,7 +138,8 @@ fun Navigator() {
                 val category = viewModel.categoryState.value.data?.data
                 AddServiceScreen(categoryList = category, navigateBack = {
                     navigationTo(navController, Route.HomeScreen.route)
-                })
+                },
+                    navHostController = navController)
             }
 
             composable(route = Route.ShowService.route) {
@@ -146,7 +150,14 @@ fun Navigator() {
                     list = data,
                     serviceName.value,
                     serviceId.intValue,
-                    navigateBack = { navigationTo(navController, Route.HomeScreen.route) })
+                    navigateBack = { navigationTo(navController, Route.Service.route) },
+                    refresh = {
+                        navController.navigate(Route.ShowService.route) {
+                            navController.graph.startDestinationRoute?.let {
+                                popUpTo(it)
+                            }
+                        }
+                    })
             }
         }
     }
