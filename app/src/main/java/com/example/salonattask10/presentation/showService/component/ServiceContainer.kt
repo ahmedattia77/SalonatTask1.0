@@ -2,6 +2,7 @@ package com.example.salonattask10.presentation.showService.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +17,10 @@ import com.example.salonattask10.R
 import com.example.salonattask10.data.model.services_detailsJON.Data
 
 @Composable
-fun ServiceContainer(item: Data) {
+fun ServiceContainer(
+    item: Data,
+    onClick: (Data) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -27,7 +31,7 @@ fun ServiceContainer(item: Data) {
             )
     )
     {
-        CustomRow(serviceName = item.type_name)
+        CustomRow(serviceName = item.type_name , onclickDelete = {onClick(item)})
         CustomLine()
         CustomRow(leftSide = "Main Price", rightSide = item.price.toString())
         CustomLine()

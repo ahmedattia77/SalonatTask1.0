@@ -62,6 +62,13 @@ interface ApiService {
         @Path("service_id") serviceId: Int,
     ): DeleteServiceResponse
 
+    @DELETE("Back/delete/center/{center_id}/service/{service_id}/type/{service_type_id}")
+    suspend fun deleteServiceType(
+        @Path("center_id") centerId: Int,
+        @Path("service_id") serviceId: Int,
+        @Path("service_type_id") serviceTypeId: Int,
+    ): DeleteServiceResponse
+
     @POST("Back/addservice")
     suspend fun addService(
         @Body service: AddServiceInput

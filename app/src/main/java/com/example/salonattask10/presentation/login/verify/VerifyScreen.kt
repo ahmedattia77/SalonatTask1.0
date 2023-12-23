@@ -35,7 +35,7 @@ import com.example.salonattask10.presentation.navGrav.Route
 @Composable
 fun VerifyScreen(
     navController: NavHostController,
-    event: (AppEntryEvent) -> Unit ,
+    event: (AppEntryEvent) -> Unit,
 ) {
     val context = LocalContext.current
     val isLoading = remember { mutableStateOf(false) }

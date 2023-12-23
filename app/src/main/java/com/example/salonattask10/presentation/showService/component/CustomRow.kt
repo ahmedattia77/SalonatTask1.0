@@ -46,7 +46,10 @@ fun CustomRow(leftSide: String, rightSide: String) {
 }
 
 @Composable
-fun CustomRow(serviceName: String) {
+fun CustomRow(
+    serviceName: String,
+    onclickDelete: () -> Unit
+) {
     Spacer(modifier = Modifier.height(10.dp))
     Row(
         modifier = Modifier
@@ -61,7 +64,7 @@ fun CustomRow(serviceName: String) {
             fontSize = 20.sp
         )
         TextButton(
-            onClick = {}) {
+            onClick = {onclickDelete ()}) {
             Text(
                 text = "Delete",
                 fontWeight = FontWeight.W700, fontSize = 16.sp,

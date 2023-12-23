@@ -31,7 +31,8 @@ fun ShowServiceScreen(
     list: List<Data>?,
     serviceName: String = "",
     serviceID: Int?,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit ,
+    refresh : () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -76,10 +77,13 @@ fun ShowServiceScreen(
             }
         }
         Spacer(modifier = Modifier.height(14.dp))
+        val viewmodel:ShowServiceViewModel = hiltViewModel()
 
         list?.let {
             list.forEach { item ->
-                ServiceContainer(item = item)
+                ServiceContainer(item = item , onClick = {
+
+                })
             }
         }
     }

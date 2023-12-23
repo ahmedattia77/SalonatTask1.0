@@ -133,7 +133,9 @@ fun Navigator() {
             composable(route = Route.AddService.route) {
                 val viewModel: AddServiceViewModel = hiltViewModel()
                 val category = viewModel.categoryState.value.data?.data
-                AddServiceScreen(categoryList = category)
+                AddServiceScreen(categoryList = category, navigateBack = {
+                    navigationTo(navController, Route.HomeScreen.route)
+                })
             }
 
             composable(route = Route.ShowService.route) {
@@ -144,7 +146,7 @@ fun Navigator() {
                     list = data,
                     serviceName.value,
                     serviceId.intValue,
-                    navigateBack = { navigationTo(navController , Route.HomeScreen.route) })
+                    navigateBack = { navigationTo(navController, Route.HomeScreen.route) })
             }
         }
     }

@@ -44,13 +44,17 @@ import com.example.salonattask10.presentation.addServiceScreen.component.DropDow
 import com.example.salonattask10.presentation.addServiceScreen.component.RadioButtonComponent
 import com.example.salonattask10.presentation.addServiceScreen.component.TextField
 import com.example.salonattask10.presentation.common.CircleProgressbar
+import com.example.salonattask10.presentation.login.verify.AppEntryEvent
+import com.example.salonattask10.presentation.navGrav.Route
 
 
 @Composable
 fun AddServiceScreen(
-    categoryList: List<Data>?
+    categoryList: List<Data>? ,
+    navigateBack : () -> Unit
 ) {
     val context = LocalContext.current
+    val handler: android.os.Handler = android.os.Handler();
     val categoryId = remember { mutableIntStateOf(0) }
     val serviceId = remember { mutableIntStateOf(0) }
     //home Field
@@ -62,22 +66,20 @@ fun AddServiceScreen(
     val isVipSelected = remember { mutableStateOf(false) }
     val isVipAddOfferSelected = remember { mutableStateOf(false) }
     val isVipAdditionSelected = remember { mutableStateOf(false) }
-    val vipPrice = remember { mutableIntStateOf(0) }
-    val vipPersonNo = remember { mutableIntStateOf(0) }
+    val vipPrice = remember { mutableStateOf("") }
+    val vipPersonNo = remember { mutableStateOf("") }
     //normal
     val isNormalSelected = remember { mutableStateOf(false) }
     val isNormalAddOfferSelected = remember { mutableStateOf(false) }
     val isNormalAdditionSelected = remember { mutableStateOf(false) }
-    val normalPrice = remember { mutableIntStateOf(0) }
-    val normalPersonNo = remember { mutableIntStateOf(0) }
+    val normalPrice = remember { mutableStateOf("") }
+    val normalPersonNo = remember { mutableStateOf("") }
     //pro
     val isProSelected = remember { mutableStateOf(false) }
     val isProAddOfferSelected = remember { mutableStateOf(false) }
     val isProAdditionSelected = remember { mutableStateOf(false) }
-    val proPrice = remember { mutableIntStateOf(0) }
-    val proPersonNo = remember { mutableIntStateOf(0) }
-    //------------ objects
-    val homeService: ServiceField = ServiceField(false, false, "", "")
+    val proPrice = remember { mutableStateOf("") }
+    val proPersonNo = remember { mutableStateOf("") }
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -158,13 +160,12 @@ fun AddServiceScreen(
             Spacer(modifier = Modifier.height(8.dp))
             RadioButtonComponent(text = "Home Details", onSelect = {
                 isHomeSelected.value = !isHomeSelected.value
-                homeService.isSelected = it
             })
             Spacer(modifier = Modifier.height(8.dp))
-            homeService.price =
+            homePrice.value =
                 TextField(hint = R.string.main_price, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
-            homeService.personNo =
+            homePersonNo.value =
                 TextField(hint = R.string.no_person, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
             Checkbox(
@@ -174,7 +175,7 @@ fun AddServiceScreen(
                 }
             )
         }
-        /*
+
         Spacer(modifier = Modifier.height(20.dp))
 
         Column(
@@ -192,9 +193,9 @@ fun AddServiceScreen(
                 isVipSelected.value = !isVipSelected.value
             })
             Spacer(modifier = Modifier.height(8.dp))
-            vipPrice.intValue = TextField(hint = R.string.main_price, type = KeyboardType.Number).toInt()
+            vipPrice.value = TextField(hint = R.string.main_price, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
-            vipPersonNo.intValue = TextField(hint = R.string.no_person, type = KeyboardType.Number).toInt()
+            vipPersonNo.value = TextField(hint = R.string.no_person, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
             Checkbox(text = "Add Offer",
                 onClick = { isVipAddOfferSelected.value = !isVipAddOfferSelected.value })
@@ -221,9 +222,9 @@ fun AddServiceScreen(
                 isNormalSelected.value = !isNormalSelected.value
             })
             Spacer(modifier = Modifier.height(8.dp))
-            normalPrice.value = TextField(hint = R.string.main_price, type = KeyboardType.Number).toInt()
+            normalPrice.value = TextField(hint = R.string.main_price, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
-            normalPersonNo.value = TextField(hint = R.string.no_person, type = KeyboardType.Number).toInt()
+            normalPersonNo.value = TextField(hint = R.string.no_person, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
             Checkbox(text = "Add Offer",
                 onClick = { isNormalAddOfferSelected.value = !isNormalAddOfferSelected.value })
@@ -253,9 +254,9 @@ fun AddServiceScreen(
                     isProSelected.value = !isProSelected.value
                 })
             Spacer(modifier = Modifier.height(8.dp))
-            proPrice.intValue = TextField(hint = R.string.main_price, type = KeyboardType.Number).toInt()
+            proPrice.value = TextField(hint = R.string.main_price, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
-            proPersonNo.intValue = TextField(hint = R.string.no_person, type = KeyboardType.Number).toInt()
+            proPersonNo.value = TextField(hint = R.string.no_person, type = KeyboardType.Number)
             Spacer(modifier = Modifier.height(8.dp))
             Checkbox(text = "Add Offer",
                 onClick = { isProAddOfferSelected.value = !isProAddOfferSelected.value })
@@ -264,7 +265,7 @@ fun AddServiceScreen(
                 onClick = { isProAdditionSelected.value = !isProAdditionSelected.value })
             Spacer(modifier = Modifier.height(20.dp))
         }
-        */
+
         Spacer(modifier = Modifier.height(20.dp))
         val viewmodel: AddServiceViewModel = hiltViewModel()
         CustomButton(label = "Save", onClick = {
@@ -273,31 +274,73 @@ fun AddServiceScreen(
             //2 pro
             //3 VIP
             //4 home
-            if (homeService.isSelected) {
+            if (isHomeSelected.value)
                 list.add(
                     AddServices(
-                        typeId = 2, // home
-                        price = homeService.price,
-                        noPerson = homeService.personNo,
+                        typeId = 4, // home
+                        price = homePrice.value,
+                        noPerson = homePersonNo.value,
                         addition = 1,
                         offerPrice = null,
                         from = "2022-07-22 15:48:00",
                         to = "2024-09-28 15:48:00"
                     )
                 )
-            }
+            if (isVipSelected.value)
+                list.add(
+                    AddServices(
+                        typeId = 3, // vip
+                        price = vipPrice.value,
+                        noPerson = vipPersonNo.value,
+                        addition = 1,
+                        offerPrice = null,
+                        from = "2022-07-22 15:48:00",
+                        to = "2024-09-28 15:48:00"
+                    )
+                )
+            if (isProSelected.value)
+                list.add(
+                    AddServices(
+                        typeId = 2, // pro
+                        price = proPrice.value,
+                        noPerson = proPersonNo.value,
+                        addition = 1,
+                        offerPrice = null,
+                        from = "2022-07-22 15:48:00",
+                        to = "2024-09-28 15:48:00"
+                    )
+                )
+            if (isNormalSelected.value)
+                list.add(
+                    AddServices(
+                        typeId = 1, // normal
+                        price = normalPrice.value,
+                        noPerson = normalPersonNo.value,
+                        addition = 1,
+                        offerPrice = null,
+                        from = "2022-07-22 15:48:00",
+                        to = "2024-09-28 15:48:00"
+                    )
+                )
             val service = AddServiceInput(
                 serviceId = serviceId.intValue,
                 centerId = 123,
                 services = list
             )
+//            if (homePrice.value > vipPrice.value &&
+//                vipPrice.value > proPrice.value &&
+//                proPrice.value) > normalPrice.value)
             viewmodel.addService(service = service)
-            viewmodel.addServicesSate.value.data?.message?.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
-            viewmodel.addServicesSate.value.error.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
+            handler.postDelayed(Runnable() {
+                viewmodel.addServicesSate.value.data?.message?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+                viewmodel.addServicesSate.value.error.let {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+                navigateBack ()
+            }, 1000)
+
         })
         Spacer(modifier = Modifier.height(20.dp))
     }
