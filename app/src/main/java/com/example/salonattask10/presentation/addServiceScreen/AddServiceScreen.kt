@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -339,26 +340,34 @@ fun AddServiceScreen(
                 if (categoryId.value != 0 && serviceId.value != 0) {
                     viewmodel.addService(service = service)
                     handler.postDelayed(Runnable {
-                        viewmodel.addServicesSate.value.data?.message?.let {
-                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                        }
+
+//                        viewmodel.addServicesSate.value.data?.message?.let {
+//                            if (it == "HTTP 422")
+//                                Toast.makeText(context, "periority", Toast.LENGTH_SHORT).show()
+//                            else
+//                                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+//                        }
 
                         viewmodel.addServicesSate.value.error.let {
-                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context,R.string.addServiceError, Toast.LENGTH_LONG).show()
                         }
 
-                        viewmodel.addServicesSate.value.data?.message?.let {
-                            Toast.makeText(
-                                context,
-                                R.string.addServiceError.toString(),
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                        }
+//                        viewmodel.addServicesSate.value.data?.message?.let {
+//                            Toast.makeText(
+//                                context,
+//                                R.string.addServiceError.toString(),
+//                                Toast.LENGTH_SHORT
+//                            )
+//                                .show()
+//                        }
 
                         navigateBack()
                     }, 1000)
-                }else Toast.makeText(context, "select category && service type", Toast.LENGTH_SHORT).show()
+                } else Toast.makeText(
+                    context,
+                    "select category && service type",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else
                 Toast.makeText(context, "At least select one field", Toast.LENGTH_SHORT).show()
         })
