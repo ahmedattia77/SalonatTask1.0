@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.salonattask10.R
+import com.example.salonattask10.presentation.addServiceScreen.component.CenterTopBar
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.addServiceScreen.component.TextField
 import com.example.salonattask10.presentation.common.CircleProgressbar
@@ -54,7 +55,7 @@ fun LoginScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        CustomHeader(headerTitle = stringResource(id = R.string.login), onClick = {})
+        CenterTopBar(title = "Login" , ){}
 
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -100,7 +101,6 @@ fun LoginScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(bottom = 40.dp)
         ) {
-
 
             CustomButton(
                 label = stringResource(id = R.string.next), onClick = {

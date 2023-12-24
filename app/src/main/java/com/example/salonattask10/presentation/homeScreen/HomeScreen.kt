@@ -38,6 +38,8 @@ import com.example.salonattask10.R
 import com.example.salonattask10.data.model.serviceJON.Data
 import com.example.salonattask10.presentation.Dimens
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
+import com.example.salonattask10.presentation.addServiceScreen.component.HomeCenterTopBar
+import com.example.salonattask10.presentation.addServiceScreen.component.HomeTopBar
 import com.example.salonattask10.presentation.common.SingleItem
 import com.example.salonattask10.presentation.common.CircleProgressbar
 import com.example.salonattask10.presentation.common.OTPTextField
@@ -61,6 +63,7 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
+        /*
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
@@ -90,7 +93,9 @@ fun HomeScreen(
                     bottom.linkTo(parent.bottom)
                 }
             )
-        }
+        }*/
+
+        HomeCenterTopBar()
 
         Spacer(modifier = Modifier.height(40.dp))
         Text(

@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.salonattask10.Constants
 import com.example.salonattask10.data.model.services_detailsJON.Data
+import com.example.salonattask10.presentation.addServiceScreen.component.CenterTopBar
 import com.example.salonattask10.presentation.common.CustomHeader
 import com.example.salonattask10.presentation.showService.component.ServiceContainer
 
@@ -47,11 +48,15 @@ fun ShowServiceScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+//
+//        CustomHeader(headerTitle = serviceName, onClick = {
+//            navController.popBackStack()
+//            Log.i("showServiceBack", "clicked")
+//        })
 
-        CustomHeader(headerTitle = serviceName, onClick = {
+        CenterTopBar(title = serviceName) {
             navController.popBackStack()
-            Log.i("showServiceBack", "clicked")
-        })
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
         Row(

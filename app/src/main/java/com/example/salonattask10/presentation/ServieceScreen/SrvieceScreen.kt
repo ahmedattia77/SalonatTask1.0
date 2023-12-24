@@ -20,6 +20,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.example.salonattask10.R
 import com.example.salonattask10.data.model.serviceJON.Data
+import com.example.salonattask10.presentation.addServiceScreen.component.CenterTopBar
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.common.SingleItem
 import com.example.salonattask10.presentation.common.CircleProgressbar
@@ -40,9 +41,13 @@ fun ServiceScreen(
         modifier = Modifier,
         verticalArrangement = Arrangement.Top
     ) {
-        CustomHeader(
-            headerTitle = "Service",
-            onClick = { navController.popBackStack() })
+//        CustomHeader(
+//            headerTitle = "Service",
+//            onClick = { navController.popBackStack() })
+
+        CenterTopBar(title = "Service") {
+            navController.popBackStack()
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 

@@ -41,6 +41,7 @@ import com.example.salonattask10.data.model.addService.AddServiceInput
 import com.example.salonattask10.data.model.addService.AddServices
 import com.example.salonattask10.data.model.categoriesJON.Data
 import com.example.salonattask10.presentation.Dimens
+import com.example.salonattask10.presentation.addServiceScreen.component.CenterTopBar
 import com.example.salonattask10.presentation.addServiceScreen.component.Checkbox
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.addServiceScreen.component.DropDown
@@ -97,38 +98,11 @@ fun AddServiceScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(Dimens.NavigationButtonHeight2)
-                .background(
-                    colorResource(id = R.color.lightPink)
-                )
-        ) {
-            val (addService, backArrow) = createRefs()
-            Text(
-                text = "Add Service",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                modifier = Modifier.constrainAs(addService) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_arrow_back),
-                contentDescription = "not",
-                modifier = Modifier
-                    .constrainAs(backArrow) {
-                        start.linkTo(parent.start, margin = 12.dp)
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                    }
-                    .clickable { navHostController.popBackStack() }
-            )
+
+        CenterTopBar(title = "Add Service") {
+            navHostController.popBackStack()
         }
+
         Spacer(modifier = Modifier.height(20.dp))
         if (categoryList == null)
             CircleProgressbar()

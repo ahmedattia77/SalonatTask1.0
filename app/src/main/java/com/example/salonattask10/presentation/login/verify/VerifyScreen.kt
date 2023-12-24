@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.salonattask10.R
+import com.example.salonattask10.presentation.addServiceScreen.component.CenterTopBar
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.common.CircleProgressbar
 import com.example.salonattask10.presentation.common.CustomHeader
@@ -54,11 +55,11 @@ fun VerifyScreen(
     ) {
 
 
-        CustomHeader(headerTitle = stringResource(id = R.string.verification),
-            onClick = {
-                navController.popBackStack()
-            }
-        )
+        CenterTopBar(title = "verification Code") {
+            navController.popBackStack()
+        }
+
+
         Spacer(modifier = Modifier.height(30.dp))
         Text(
             text = stringResource(id = R.string.pleas_enter_verify),
