@@ -32,7 +32,7 @@ fun VerifyTextFields(
     modifier: Modifier = Modifier,
     length: Int = 6,
     onFilled: (code: String) -> Unit
-) :String {
+): String {
     var code: List<Char> by remember {
         mutableStateOf(listOf())
     }
@@ -44,7 +44,6 @@ fun VerifyTextFields(
         }
         temp
     }
-
 
     Row(modifier = modifier) {
         (0 until length).forEach { index ->

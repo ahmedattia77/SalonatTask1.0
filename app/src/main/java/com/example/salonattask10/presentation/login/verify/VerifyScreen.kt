@@ -30,6 +30,7 @@ import com.example.salonattask10.R
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.common.CircleProgressbar
 import com.example.salonattask10.presentation.common.CustomHeader
+import com.example.salonattask10.presentation.common.OTPTextField
 import com.example.salonattask10.presentation.common.VerifyTextFields
 import com.example.salonattask10.presentation.navGrav.Route
 
@@ -42,7 +43,7 @@ fun VerifyScreen(
     val isLoading = remember { mutableStateOf(false) }
     val data = remember { mutableStateOf(VerifyState()) }
     val viewmodel: VerifyViewModel = hiltViewModel()
-    var verifyCode by remember { mutableStateOf("") }
+    var verifyCode = remember { mutableStateOf("") }
     val handler: android.os.Handler = android.os.Handler()
 
 
@@ -52,11 +53,6 @@ fun VerifyScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-//        val phoneNumber =
-//            navController.previousBackStackEntry?.savedStateHandle?.get<String>("signUp")
-//
-//        if (phoneNumber != null)
-//            Toast.makeText(context, phoneNumber, Toast.LENGTH_SHORT).show()
 
         CustomHeader(headerTitle = stringResource(id = R.string.verification),
             onClick = {
@@ -72,11 +68,12 @@ fun VerifyScreen(
         Spacer(modifier = Modifier.height(30.dp))
 
         VerifyTextFields(
-            modifier = Modifier.padding(horizontal = 24.dp),
+            modifier = Modifier.padding(horizontal = 28.dp),
             onFilled = {
-                verifyCode = it
+                verifyCode.value = it
             }
         )
+
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = stringResource(id = R.string.resend),
@@ -101,9 +98,9 @@ fun VerifyScreen(
                 onClick = {
                     val phoneNumber =
                         navController.previousBackStackEntry?.savedStateHandle?.get<String>("phone")
-                    Log.i("verify" , phoneNumber.toString())
+                    Log.i("verify", phoneNumber.toString())
 
-                    if (verifyCode.length == 6 && phoneNumber != null) {
+                    if (verifyCode.value.length == 6 && phoneNumber != null) {
                         viewmodel.verify(phone = phoneNumber.toString(), code = "123456")
 
                         data.value = viewmodel.state.value

@@ -404,30 +404,3 @@ data class ServiceField(
     var price: Int,
     var personeNo: Int
 )
-
-private fun isFieldsEmty(obj: ServiceField, obj2: ServiceField): Boolean {
-
-    if (obj.price == 0 && obj.personeNo == 0 || obj2.personeNo == 0 && obj2.price == 0)
-        return false
-
-    return true
-}
-
-private fun checkFields(
-    homeField: ServiceField,
-    vipField: ServiceField,
-    proField: ServiceField,
-    norField: ServiceField,
-): Boolean {
-    if (isFieldsEmty(homeField, vipField) || isFieldsEmty(proField, norField))
-        return true
-    else
-        return false
-}
-
-private fun checkFields(
-    homeField: ServiceField,
-    vipField: ServiceField,
-    proField: ServiceField,
-) = isFieldsEmty(homeField, vipField) &&
-        isFieldsEmty(vipField, proField)

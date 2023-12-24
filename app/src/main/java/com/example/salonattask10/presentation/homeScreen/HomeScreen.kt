@@ -1,6 +1,7 @@
 package com.example.salonattask10.presentation.homeScreen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,7 +40,9 @@ import com.example.salonattask10.presentation.Dimens
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.common.SingleItem
 import com.example.salonattask10.presentation.common.CircleProgressbar
+import com.example.salonattask10.presentation.common.OTPTextField
 import com.example.salonattask10.presentation.common.ShimmerEffect
+import com.example.salonattask10.presentation.common.VerifyTextFields
 import kotlinx.coroutines.Delay
 import kotlinx.coroutines.delay
 

@@ -33,6 +33,7 @@ import com.example.salonattask10.presentation.addServiceScreen.component.CustomB
 import com.example.salonattask10.presentation.addServiceScreen.component.TextField
 import com.example.salonattask10.presentation.common.CircleProgressbar
 import com.example.salonattask10.presentation.common.CustomHeader
+import com.example.salonattask10.presentation.common.OTPTextField
 import com.example.salonattask10.presentation.navGrav.Route
 
 @SuppressLint("SuspiciousIndentation")
@@ -91,6 +92,7 @@ fun LoginScreen(navController: NavHostController) {
             CircleProgressbar()
         }
 
+
         Column(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -99,13 +101,14 @@ fun LoginScreen(navController: NavHostController) {
                 .padding(bottom = 40.dp)
         ) {
 
+
             CustomButton(
                 label = stringResource(id = R.string.next), onClick = {
                     ///0106778411
                     if (inputPhone.value != "") {
                         isLoading.value = true
                         viewmodel.login(phone = inputPhone.value)
-                        Log.i("login" , inputPhone.value)
+                        Log.i("login", inputPhone.value)
                         handler.postDelayed(Runnable() {
                             if (viewmodel.stateLogin.value.data != null) {
                                 Toast.makeText(
