@@ -1,6 +1,6 @@
 package com.example.salonattask10.presentation.addServiceScreen
 
-data class ServiceField(
+data class ServiceField_(
     var isSelected: Boolean,
     var isAdditionSelected: Boolean,
     var price: String,

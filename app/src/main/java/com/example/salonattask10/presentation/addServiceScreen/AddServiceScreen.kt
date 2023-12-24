@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -48,8 +47,6 @@ import com.example.salonattask10.presentation.addServiceScreen.component.DropDow
 import com.example.salonattask10.presentation.addServiceScreen.component.RadioButtonComponent
 import com.example.salonattask10.presentation.addServiceScreen.component.TextField
 import com.example.salonattask10.presentation.common.CircleProgressbar
-import com.example.salonattask10.presentation.login.verify.AppEntryEvent
-import com.example.salonattask10.presentation.navGrav.Route
 
 
 @Composable
@@ -87,6 +84,11 @@ fun AddServiceScreen(
     val isProAdditionSelected = remember { mutableStateOf(false) }
     val proPrice = remember { mutableStateOf("") }
     val proPersonNo = remember { mutableStateOf("") }
+    /* home field*/
+    val homeField = ServiceField(0, 0)
+    val vipField = ServiceField(0, 0)
+    val proField = ServiceField(0, 0)
+    val norField = ServiceField(0, 0)
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -275,11 +277,10 @@ fun AddServiceScreen(
             Spacer(modifier = Modifier.height(20.dp))
         }
 
-        if (isLoading.value)
-            CircleProgressbar()
-
         Spacer(modifier = Modifier.height(20.dp))
         val viewmodel: AddServiceViewModel = hiltViewModel()
+        if (isLoading.value)
+            CircleProgressbar()
         CustomButton(label = "Save", onClick = {
             val list: ArrayList<AddServices> = ArrayList()
             //1 normal
@@ -343,21 +344,42 @@ fun AddServiceScreen(
                 isProSelected.value || isNormalSelected.value && serviceId.intValue != 0
             ) {
                 if (categoryId.value != 0 && serviceId.value != 0) {
-                    isLoading.value = true
-                    viewmodel.addService(service = service)
-                    handler.postDelayed(Runnable {
-                        viewmodel.addServicesSate.value.data?.message?.let {
 
-                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                        }
+                    homeField.price = if (homePrice.value != "") homePrice.value.toInt() else 0
+                    homeField.personeNo =
+                        if (homePersonNo.value != "") homePersonNo.value.toInt() else 0
 
-//                        viewmodel.addServicesSate.value.error.let {
-//                            Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_LONG)
-//                                .show()
-//                        }
+                    proField.price = if (proPrice.value != "") proPrice.value.toInt() else 0
+                    proField.personeNo =
+                        if (proPersonNo.value != "") proPersonNo.value.toInt() else 0
 
-                        navigateBack()
-                    }, 1000)
+                    vipField.price = if (vipPrice.value != "") vipPrice.value.toInt() else 0
+                    vipField.personeNo =
+                        if (vipPersonNo.value != "") vipPersonNo.value.toInt() else 0
+
+                    norField.price = if (normalPrice.value != "") normalPrice.value.toInt() else 0
+                    norField.personeNo =
+                        if (normalPersonNo.value != "") normalPersonNo.value.toInt() else 0
+
+                    if (true) {
+                        if (checkPriority(
+                                homeField = homeField,
+                                vipField = vipField,
+                                proField = proField,
+                                norField = norField
+                            )
+                        ) {
+                            isLoading.value = true
+                            viewmodel.addService(service = service)
+                            handler.postDelayed(Runnable {
+                                viewmodel.addServicesSate.value.data?.message?.let {
+                                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                                }
+                                navigateBack()
+                            }, 1000)
+                        } else Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 } else Toast.makeText(
                     context,
                     "select category && service type",
@@ -368,5 +390,98 @@ fun AddServiceScreen(
         })
         Spacer(modifier = Modifier.height(20.dp))
     }
+}
+
+data class ServiceField(
+    var price: Int,
+    var personeNo: Int
+)
+
+// home.price 10
+// home.personeNo 1
+
+// vip.personeNo 0
+// vip.personeNo 0
+
+// pro.personeNo
+// pro.personeNo
+
+// normal.personeNo
+// normal.personeNo
+
+
+private fun isGreaterThan(obj: ServiceField, obj2: ServiceField): Boolean {
+
+    if (obj.price == 0 || obj.personeNo == 0) {
+        return false
+    } else if (obj2.personeNo == 0 || obj2.price == 0) {
+        return false
+    } else {
+        return obj.price > obj2.price && obj.personeNo >= obj2.personeNo
+    }
+}
+
+private fun checkPriority(
+    homeField: ServiceField,
+    vipField: ServiceField,
+    proField: ServiceField,
+    norField: ServiceField,
+) = isGreaterThan(homeField, vipField) &&
+        isGreaterThan(vipField, proField) &&
+        isGreaterThan(proField, norField)
+
+private fun checkPriority(
+    homeField: ServiceField,
+    vipField: ServiceField,
+    proField: ServiceField,
+) = isGreaterThan(homeField, vipField) &&
+        isGreaterThan(vipField, proField)
+
+private fun checkPriority(
+    homeField: ServiceField,
+    vipField: ServiceField,
+) = isGreaterThan(homeField, vipField)
+
+
+/*
+if (isHomeSelected.value &&
+isProSelected.value &&
+isVipSelected.value &&
+isNormalSelected.value
+) {
+    if (checkPriority(
+            homeField = homeField,
+            vipField = vipField,
+            proField = proField,
+            norField = norField
+        )
+    ) {
+        isLoading.value = true
+        viewmodel.addService(service = service)
+        handler.postDelayed(Runnable {
+            viewmodel.addServicesSate.value.data?.message?.let {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+            navigateBack()
+        }, 1000)
+    } else Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_SHORT)
+        .show()
+
+} else if (isHomeSelected.value &&
+isProSelected.value &&
+isVipSelected.value
+) {
+
+} else if (isHomeSelected.value &&
+isProSelected.value
+) {
+
+} else if (isHomeSelected.value) {
 
 }
+} else Toast.makeText(
+context,
+"select category && service type",
+Toast.LENGTH_SHORT
+).show()
+ */

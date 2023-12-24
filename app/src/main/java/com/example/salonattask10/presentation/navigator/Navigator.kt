@@ -53,14 +53,13 @@ fun Navigator() {
     }
 
 
-
     val navController = rememberNavController()
     val backStackState = navController.currentBackStackEntryAsState().value
     var selectItem by rememberSaveable {
         mutableStateOf(0)
     }
 
-    selectItem = remember (key1 = backStackState) {
+    selectItem = remember(key1 = backStackState) {
 
         when (backStackState?.destination?.route) {
             Route.HomeScreen.route -> 0
@@ -69,29 +68,35 @@ fun Navigator() {
         }
     }
 
+    val navButtonVisibility = remember(key1 = backStackState) {
+        backStackState?.destination?.route == Route.AddService.route ||
+                backStackState?.destination?.route == Route.ShowService.route
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            ButtonNavigation(
-                items = bottomNavigationItems,
-                selectedItem = selectItem,
-                onItemClick = { index ->
-                    when (index) {
-                        0 -> navigationTo(
-                            navController = navController,
-                            rout = Route.HomeScreen.route
-                        )
+            if (!navButtonVisibility)
+                ButtonNavigation(
+                    items = bottomNavigationItems,
+                    selectedItem = selectItem,
+                    onItemClick = { index ->
+                        when (index) {
+                            0 -> navigationTo(
+                                navController = navController,
+                                rout = Route.HomeScreen.route
+                            )
 
-                        2 -> navigationTo(
-                            navController = navController,
-                            rout = Route.Service.route
-                        )
+                            2 -> navigationTo(
+                                navController = navController,
+                                rout = Route.Service.route
+                            )
 
-                        else -> Toast.makeText(con, "not implemented yet", Toast.LENGTH_SHORT)
-                            .show()
+                            else -> Toast.makeText(con, "not implemented yet", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
-                }
-            )
+                )
         }) {
         val bottomPadding = it.calculateBottomPadding()
         NavHost(
