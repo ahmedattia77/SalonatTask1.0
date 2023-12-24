@@ -60,6 +60,8 @@ fun AddServiceScreen(
 ) {
     val context = LocalContext.current
     val handler: android.os.Handler = android.os.Handler();
+    val isLoading = remember { mutableStateOf(false) }
+
     val categoryId = remember { mutableIntStateOf(0) }
     val serviceId = remember { mutableIntStateOf(0) }
     //home Field
@@ -273,6 +275,9 @@ fun AddServiceScreen(
             Spacer(modifier = Modifier.height(20.dp))
         }
 
+        if (isLoading.value)
+            CircleProgressbar()
+
         Spacer(modifier = Modifier.height(20.dp))
         val viewmodel: AddServiceViewModel = hiltViewModel()
         CustomButton(label = "Save", onClick = {
@@ -334,32 +339,20 @@ fun AddServiceScreen(
                 centerId = Constants.LOCAL_CENTER_ID.toInt(),
                 services = list
             )
-
             if (isHomeSelected.value || isVipSelected.value ||
                 isProSelected.value || isNormalSelected.value && serviceId.intValue != 0
             ) {
                 if (categoryId.value != 0 && serviceId.value != 0) {
+                    isLoading.value = true
                     viewmodel.addService(service = service)
                     handler.postDelayed(Runnable {
+                        viewmodel.addServicesSate.value.data?.message?.let {
 
-//                        viewmodel.addServicesSate.value.data?.message?.let {
-//                            if (it == "HTTP 422")
-//                                Toast.makeText(context, "periority", Toast.LENGTH_SHORT).show()
-//                            else
-//                                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-//                        }
-
-                        viewmodel.addServicesSate.value.error.let {
-                            Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_LONG)
-                                .show()
+                            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                         }
 
-//                        viewmodel.addServicesSate.value.data?.message?.let {
-//                            Toast.makeText(
-//                                context,
-//                                R.string.addServiceError.toString(),
-//                                Toast.LENGTH_SHORT
-//                            )
+//                        viewmodel.addServicesSate.value.error.let {
+//                            Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_LONG)
 //                                .show()
 //                        }
 

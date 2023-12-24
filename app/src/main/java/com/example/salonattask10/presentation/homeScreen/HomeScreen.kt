@@ -1,6 +1,7 @@
 package com.example.salonattask10.presentation.homeScreen
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,6 +39,9 @@ import com.example.salonattask10.presentation.Dimens
 import com.example.salonattask10.presentation.addServiceScreen.component.CustomButton
 import com.example.salonattask10.presentation.common.SingleItem
 import com.example.salonattask10.presentation.common.CircleProgressbar
+import com.example.salonattask10.presentation.common.ShimmerEffect
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.delay
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
@@ -47,7 +52,6 @@ fun HomeScreen(
     list: List<Data>?
 ) {
     val con = LocalContext.current
-    val isLoading = remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -127,23 +131,42 @@ fun HomeScreen(
             }
         }
 
-        if (list == null)
-            CircleProgressbar()
-        else {
-            list.let {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(240.dp)
-                ) {
-                    items(items = list, itemContent = { item ->
-                        SingleItem(item, onClick = { navigationToShowServiceScreen(item) })
-                    })
+
+        Column(
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(240.dp)
+        ) {
+
+            if (list == null)
+                ShimmerEffect(repeat = 4)
+            else if (list != null)
+                list.let {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        items(items = it, itemContent = { item ->
+                            SingleItem(item, onClick = { navigationToShowServiceScreen(item) })
+                        })
+                    }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
-            }
+            else
+                LaunchedEffect(Unit) {
+                    delay(3000)
+                    Toast.makeText(
+                        con,
+                        "There is no service , Add  one to show up",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
         }
 
+        Spacer(modifier = Modifier.height(20.dp))
         CustomButton(label = "Add Service", onClick = { navigationToAddServiceScreen() })
     }
 

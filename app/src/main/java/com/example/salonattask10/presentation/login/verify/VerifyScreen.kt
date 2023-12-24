@@ -43,7 +43,7 @@ fun VerifyScreen(
     val data = remember { mutableStateOf(VerifyState()) }
     val viewmodel: VerifyViewModel = hiltViewModel()
     var verifyCode by remember { mutableStateOf("") }
-    val handler: android.os.Handler = android.os.Handler();
+    val handler: android.os.Handler = android.os.Handler()
 
 
     Column(

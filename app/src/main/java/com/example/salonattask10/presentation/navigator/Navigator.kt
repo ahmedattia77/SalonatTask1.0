@@ -1,7 +1,6 @@
 package com.example.salonattask10.presentation.navigator
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -119,7 +118,6 @@ fun Navigator() {
                     navigationToAddServiceScreen = {
                         navigationTo(navController, rout = Route.AddService.route)
                     },
-                    navigationToHomeScreen = {},
                     navigationToShowServiceScreen = {
                         serviceName.value = it.name
                         serviceId.intValue = it.id
