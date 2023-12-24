@@ -109,7 +109,7 @@ fun HomeScreen(
                 .padding(horizontal = 4.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
+                painter = painterResource(id = R.drawable.out_of_stock),
                 contentDescription = null
             )
             Spacer(modifier = Modifier.width(4.dp))
