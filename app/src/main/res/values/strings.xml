@@ -10,7 +10,8 @@
     <string name="pleas_enter_verify">Pleas Enter Your verification Code</string>
     <string name="resend">Resend?</string>
     <string name="next">Next</string>
-    <string name="ex_num">Ex: 0123456789</string>
+    <string name="enterValid">Enter Valid phone number</string>
+    <string name="ex_num">Ex: 1211000009</string>
     <string name="not_imp">not implemented yet</string>
     <string name="iam_agree">I am agree with</string>
     <string name="terms_conditions">terms &amp; conditions</string>

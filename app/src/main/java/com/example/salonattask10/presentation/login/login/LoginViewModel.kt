@@ -20,48 +20,29 @@ class LoginViewModel @Inject constructor(
     private val repoV: VerifyRepositoryImp
 ) : ViewModel() {
 
-    private var _state = mutableStateOf(LoginState())
-    private var _stateV = mutableStateOf(VerifyState())
+    private var _stateLogin = mutableStateOf(LoginState())
+    private var _stateVerify = mutableStateOf(VerifyState())
 
-    val state: State<LoginState>
-        get() = _state
+    val stateLogin: State<LoginState>
+        get() = _stateLogin
 
-    val stateV: State<VerifyState>
-        get() = _stateV
-
-//
-//    fun login(phone: String) {
-//        viewModelScope.launch {
-//            repo.login(phone = phone).onEach {
-//                when (it) {
-//                    is Resource.Loading -> {
-//                        _state.value = LoginState(
-//                            isLoading = true
-//                        )
-//                    }
-//
-//                    is Resource.Success -> {
-//                        _state.value = LoginState(
-//                            data = it.data
-//                        )
-//                    }
-//
-//                    is Resource.Error -> {
-//                        _state.value = LoginState(
-//                            error = it.message ?: "An unexpected value"
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//    }
+    val stateVerify: State<VerifyState>
+        get() = _stateVerify
 
     fun login(phone: String) {
         viewModelScope.launch {
-            val data = repo.login(phone = phone)
-            _state.value = LoginState(
-                data = data
-            )
+            try {
+                val data = repo.login(phone = phone)
+                _stateLogin.value = LoginState(
+                    data = data
+                )
+            } catch (e: Exception) {
+
+            } catch (e: HttpException) {
+
+            } catch (e: IOException) {
+
+            }
         }
     }
 
@@ -69,29 +50,28 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val data = repoV.verify(phone = phone, code = code)
-                _stateV.value = VerifyState(
+                _stateVerify.value = VerifyState(
                     data = data
                 )
             } catch (e: Exception) {
-                _state.value = e.localizedMessage?.let {
+                _stateLogin.value = e.localizedMessage?.let {
                     LoginState(
                         error = it
                     )
                 }!!
             } catch (e: IOException) {
-                _state.value = e.localizedMessage?.let {
+                _stateLogin.value = e.localizedMessage?.let {
                     LoginState(
                         error = it
                     )
                 }!!
             } catch (e: HttpException) {
-                _state.value = e.localizedMessage?.let {
+                _stateLogin.value = e.localizedMessage?.let {
                     LoginState(
                         error = it
                     )
                 }!!
             }
-            Log.i("responseV", state.value.data.toString())
         }
     }
 

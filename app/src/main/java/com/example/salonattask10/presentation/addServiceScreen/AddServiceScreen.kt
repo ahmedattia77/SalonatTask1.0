@@ -361,30 +361,38 @@ fun AddServiceScreen(
                     norField.personeNo =
                         if (normalPersonNo.value != "") normalPersonNo.value.toInt() else 0
 
-                    if (true) {
-                        if (checkPriority(
-                                homeField = homeField,
-                                vipField = vipField,
-                                proField = proField,
-                                norField = norField
-                            )
-                        ) {
-                            isLoading.value = true
-                            viewmodel.addService(service = service)
-                            handler.postDelayed(Runnable {
-                                viewmodel.addServicesSate.value.data?.message?.let {
-                                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                                }
+                    if (isHomeSelected.value ||
+                        isProSelected.value ||
+                        isVipSelected.value ||
+                        isNormalSelected.value
+                    ) {
+                        isLoading.value = true
+                        viewmodel.addService(service = service)
+                        handler.postDelayed(Runnable {
+
+                            viewmodel.addServicesSate.value.data?.message?.let {
+                                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                            }
+
+                            if (viewmodel.addServicesSate.value.data?.status == true) {
                                 navigateBack()
-                            }, 1000)
-                        } else Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_SHORT)
-                            .show()
+                            } else {
+                                isLoading.value = false
+                                Toast.makeText(
+                                    context,
+                                    R.string.addServiceError,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }, 1000)
                     }
                 } else Toast.makeText(
                     context,
                     "select category && service type",
                     Toast.LENGTH_SHORT
                 ).show()
+
             } else
                 Toast.makeText(context, "At least select one field", Toast.LENGTH_SHORT).show()
         })
@@ -397,91 +405,29 @@ data class ServiceField(
     var personeNo: Int
 )
 
-// home.price 10
-// home.personeNo 1
+private fun isFieldsEmty(obj: ServiceField, obj2: ServiceField): Boolean {
 
-// vip.personeNo 0
-// vip.personeNo 0
-
-// pro.personeNo
-// pro.personeNo
-
-// normal.personeNo
-// normal.personeNo
-
-
-private fun isGreaterThan(obj: ServiceField, obj2: ServiceField): Boolean {
-
-    if (obj.price == 0 || obj.personeNo == 0) {
+    if (obj.price == 0 && obj.personeNo == 0 || obj2.personeNo == 0 && obj2.price == 0)
         return false
-    } else if (obj2.personeNo == 0 || obj2.price == 0) {
-        return false
-    } else {
-        return obj.price > obj2.price && obj.personeNo >= obj2.personeNo
-    }
+
+    return true
 }
 
-private fun checkPriority(
+private fun checkFields(
     homeField: ServiceField,
     vipField: ServiceField,
     proField: ServiceField,
     norField: ServiceField,
-) = isGreaterThan(homeField, vipField) &&
-        isGreaterThan(vipField, proField) &&
-        isGreaterThan(proField, norField)
+): Boolean {
+    if (isFieldsEmty(homeField, vipField) || isFieldsEmty(proField, norField))
+        return true
+    else
+        return false
+}
 
-private fun checkPriority(
+private fun checkFields(
     homeField: ServiceField,
     vipField: ServiceField,
     proField: ServiceField,
-) = isGreaterThan(homeField, vipField) &&
-        isGreaterThan(vipField, proField)
-
-private fun checkPriority(
-    homeField: ServiceField,
-    vipField: ServiceField,
-) = isGreaterThan(homeField, vipField)
-
-
-/*
-if (isHomeSelected.value &&
-isProSelected.value &&
-isVipSelected.value &&
-isNormalSelected.value
-) {
-    if (checkPriority(
-            homeField = homeField,
-            vipField = vipField,
-            proField = proField,
-            norField = norField
-        )
-    ) {
-        isLoading.value = true
-        viewmodel.addService(service = service)
-        handler.postDelayed(Runnable {
-            viewmodel.addServicesSate.value.data?.message?.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-            }
-            navigateBack()
-        }, 1000)
-    } else Toast.makeText(context, R.string.addServiceError, Toast.LENGTH_SHORT)
-        .show()
-
-} else if (isHomeSelected.value &&
-isProSelected.value &&
-isVipSelected.value
-) {
-
-} else if (isHomeSelected.value &&
-isProSelected.value
-) {
-
-} else if (isHomeSelected.value) {
-
-}
-} else Toast.makeText(
-context,
-"select category && service type",
-Toast.LENGTH_SHORT
-).show()
- */
+) = isFieldsEmty(homeField, vipField) &&
+        isFieldsEmty(vipField, proField)

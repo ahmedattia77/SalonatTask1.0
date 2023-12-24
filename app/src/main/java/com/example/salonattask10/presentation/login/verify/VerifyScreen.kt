@@ -52,6 +52,12 @@ fun VerifyScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+//        val phoneNumber =
+//            navController.previousBackStackEntry?.savedStateHandle?.get<String>("signUp")
+//
+//        if (phoneNumber != null)
+//            Toast.makeText(context, phoneNumber, Toast.LENGTH_SHORT).show()
+
         CustomHeader(headerTitle = stringResource(id = R.string.verification),
             onClick = {
                 navController.popBackStack()
@@ -93,23 +99,25 @@ fun VerifyScreen(
             CustomButton(
                 label = stringResource(id = R.string.next),
                 onClick = {
-                    if (verifyCode.length == 6) {
-                        viewmodel.verify(phone = "1211000009", code = "123456")
+                    val phoneNumber =
+                        navController.previousBackStackEntry?.savedStateHandle?.get<String>("phone")
+                    Log.i("verify" , phoneNumber.toString())
+
+                    if (verifyCode.length == 6 && phoneNumber != null) {
+                        viewmodel.verify(phone = phoneNumber.toString(), code = "123456")
 
                         data.value = viewmodel.state.value
                         isLoading.value = true
                         handler.postDelayed(Runnable() {
                             if (data.value != null)
                                 viewmodel.state.value.data?.let { response ->
-                                    Log.i("loginData", response.token)
-                                    Log.i("loginData", response.data.id.toString())
                                     viewmodel.onEvent(
                                         token = response.token,
                                         centerId = response.data.id.toString()
                                     )
                                     navController.navigate(Route.HomeScreen.route)
                                 }
-                        }, 1500)
+                        }, 1000)
 
                     } else
                         Toast.makeText(
@@ -129,7 +137,6 @@ fun VerifyScreen(
                     fontWeight = FontWeight.W600,
                     fontSize = 14.sp
                 )
-
                 Text(
                     text = "",
                     fontWeight = FontWeight.W600,

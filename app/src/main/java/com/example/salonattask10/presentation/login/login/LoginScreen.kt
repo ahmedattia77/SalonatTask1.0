@@ -1,6 +1,7 @@
 package com.example.salonattask10.presentation.login.login
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,10 @@ fun LoginScreen(navController: NavHostController) {
 
     val context = LocalContext.current
     val isLoading = remember { mutableStateOf(false) }
+    val inputPhone = remember { mutableStateOf("") }
     val viewmodel: LoginViewModel = hiltViewModel()
+    val handler: android.os.Handler = android.os.Handler()
+
 
     Column(
         modifier = Modifier
@@ -59,7 +63,7 @@ fun LoginScreen(navController: NavHostController) {
             modifier = Modifier.padding(horizontal = 24.dp)
         )
         Spacer(modifier = Modifier.height(30.dp))
-        val phoneNumber = TextField(hint = R.string.ex_num, type = KeyboardType.Phone)
+        inputPhone.value = TextField(hint = R.string.ex_num, type = KeyboardType.Phone)
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -97,15 +101,36 @@ fun LoginScreen(navController: NavHostController) {
 
             CustomButton(
                 label = stringResource(id = R.string.next), onClick = {
-                    viewmodel.login("1211000009")
-                    isLoading.value = true
-                    if (viewmodel.state.value.data != null)
-                        Toast.makeText(
-                            context,
-                            viewmodel.state.value.data?.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    navigateTONext(navController)
+                    ///0106778411
+                    if (inputPhone.value != "") {
+                        isLoading.value = true
+                        viewmodel.login(phone = inputPhone.value)
+                        Log.i("login" , inputPhone.value)
+                        handler.postDelayed(Runnable() {
+                            if (viewmodel.stateLogin.value.data != null) {
+                                Toast.makeText(
+                                    context,
+                                    viewmodel.stateLogin.value.data?.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            if (viewmodel.stateLogin.value.data?.status == true)
+                                navigateTONext(navController, phone = inputPhone.value)
+                            else {
+                                isLoading.value = false
+                                Toast.makeText(
+                                    context,
+                                    R.string.enterValid,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }, 1500)
+                    } else Toast.makeText(
+                        context,
+                        R.string.enterValid,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             )
 
@@ -134,7 +159,11 @@ fun LoginScreen(navController: NavHostController) {
     }
 }
 
-fun navigateTONext(navController: NavHostController) {
+fun navigateTONext(navController: NavHostController, phone: String) {
+    navController.currentBackStackEntry?.savedStateHandle?.set(
+        key = "phone",
+        value = phone
+    )
     navController.navigate(Route.VerifyScreen.route) {
         navController.graph.startDestinationRoute?.let {
             popUpTo(it) {

@@ -9,8 +9,6 @@ import com.example.salonattask10.presentation.login.login.LoginScreen
 import com.example.salonattask10.presentation.login.verify.VerifyScreen
 import com.example.salonattask10.presentation.login.verify.VerifyViewModel
 import com.example.salonattask10.presentation.navigator.Navigator
-import com.example.salonattask10.presentation.showService.ShowServiceScreen
-import com.example.salonattask10.presentation.showService.ShowServiceViewModel
 
 @Composable
 fun NavGrav(startDes: String) {
@@ -25,7 +23,8 @@ fun NavGrav(startDes: String) {
         }
 
         composable(route = Route.VerifyScreen.route) {
-            val viewModel: VerifyViewModel = hiltViewModel()
+            val result =
+                navController.previousBackStackEntry?.savedStateHandle?.get<String>("phone")
             VerifyScreen(navController)
         }
     }
