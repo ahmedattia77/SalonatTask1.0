@@ -44,13 +44,15 @@ fun Navigator() {
 
     val bottomNavigationItems = remember {
         listOf(
-            NavigationItem(icon = R.drawable.home, title = "Home"),
+            NavigationItem(icon = R.drawable.home_2, title = "Home"),
             NavigationItem(icon = R.drawable.service, title = "Reservation"),
-            NavigationItem(icon = R.drawable.service, title = "Service"),
+            NavigationItem(icon = R.drawable.list, title = "Service"),
             NavigationItem(icon = R.drawable.service, title = "Offers"),
-            NavigationItem(icon = R.drawable.service, title = "Settings")
+            NavigationItem(icon = R.drawable.settings, title = "Settings")
         )
     }
+
+
 
     val navController = rememberNavController()
     val backStackState = navController.currentBackStackEntryAsState().value
@@ -58,8 +60,13 @@ fun Navigator() {
         mutableStateOf(0)
     }
 
-    val navigateVisible = remember(key1 = backStackState) {
-        backStackState?.destination?.route == Route.Service.route
+    selectItem = remember (key1 = backStackState) {
+
+        when (backStackState?.destination?.route) {
+            Route.HomeScreen.route -> 0
+            Route.Service.route -> 2
+            else -> 0
+        }
     }
 
     Scaffold(
