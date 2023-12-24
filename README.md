@@ -1,4 +1,3 @@
-* center beauty Application
 - Clean Architecture MVVM/MVI
 
 - Jetback Compose
